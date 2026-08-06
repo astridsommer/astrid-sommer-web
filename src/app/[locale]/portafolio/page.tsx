@@ -22,13 +22,13 @@ export default async function Portafolio({ params }: { params: Promise<{ locale:
   return (
     <div className="pt-32 pb-24 px-6 md:px-10">
       <Reveal>
-        <h1 className="text-3xl md:text-5xl font-light mb-16">
+        <h1 className="text-4xl md:text-6xl italic font-light mb-16">
           {locale === 'es' ? 'Portafolio' : 'Portfolio'}
         </h1>
       </Reveal>
 
       {obras.length === 0 ? (
-        <p className="text-black/40 text-sm tracking-widest uppercase py-24 text-center">
+        <p className="text-muted text-sm tracking-widest uppercase py-24 text-center">
           {locale === 'es' ? 'Obra en proceso de carga' : 'Work being uploaded'}
         </p>
       ) : (
@@ -37,12 +37,12 @@ export default async function Portafolio({ params }: { params: Promise<{ locale:
           if (items.length === 0) return null
           return (
             <section key={cat} className="mb-20">
-              <h2 className="text-sm tracking-widest uppercase text-black/50 mb-6">{cat}</h2>
+              <h2 className="text-sm tracking-widest uppercase text-muted mb-6">{cat}</h2>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-1">
                 {items.map((obra: any) => {
                   const img = obra.img ? urlForImage(obra.img) : undefined
                   return (
-                    <Link key={obra._id} href={`/${locale}/portafolio/${obra.slug}`} className="relative aspect-square bg-black/5 overflow-hidden group">
+                    <Link key={obra._id} href={`/${locale}/portafolio/${obra.slug}`} className="relative aspect-square bg-surface overflow-hidden group">
                       {img && <Image src={img.width(800).url()} alt={obra.titulo} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />}
                     </Link>
                   )

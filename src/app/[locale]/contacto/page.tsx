@@ -8,12 +8,12 @@ export default async function Contacto({ params }: { params: Promise<{ locale: s
   return (
     <div className="pt-32 pb-24 px-6 md:px-10 max-w-3xl mx-auto">
       <Reveal>
-        <h1 className="text-3xl md:text-5xl font-light mb-6">
+        <h1 className="text-4xl md:text-6xl italic font-light mb-6">
           {locale === 'es' ? 'Contacto' : 'Contact'}
         </h1>
       </Reveal>
       <Reveal delay={0.1}>
-        <p className="text-black/60 mb-12 max-w-xl">{site[locale].contactIntro}</p>
+        <p className="text-muted mb-12 max-w-xl">{site[locale].contactIntro}</p>
       </Reveal>
       <Reveal delay={0.2}>
         <ContactForm locale={locale} />

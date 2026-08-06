@@ -43,7 +43,7 @@ export default function ContactForm({ locale, obraRelacionada }: { locale: Local
 
   if (status === 'sent') {
     return (
-      <p className="text-black/70">
+      <p className="text-foreground/80">
         {locale === 'es' ? 'Gracias — tu mensaje fue enviado. Te responderemos pronto.' : 'Thank you — your message was sent. We will get back to you soon.'}
       </p>
     )
@@ -53,30 +53,30 @@ export default function ContactForm({ locale, obraRelacionada }: { locale: Local
     <form onSubmit={handleSubmit} className="space-y-6 max-w-lg">
       <input type="text" name="honeypot" className="hidden" tabIndex={-1} autoComplete="off" />
       <div>
-        <label className="block text-xs tracking-widest uppercase text-black/50 mb-2">
+        <label className="block text-xs tracking-widest uppercase text-muted mb-2">
           {locale === 'es' ? 'Nombre' : 'Name'}
         </label>
-        <input name="nombre" required className="w-full border-b border-black/20 py-2 bg-transparent focus:outline-none focus:border-black" />
+        <input name="nombre" required className="w-full border-b border-line py-2 bg-transparent focus:outline-none focus:border-accent" />
       </div>
       <div>
-        <label className="block text-xs tracking-widest uppercase text-black/50 mb-2">Email</label>
-        <input type="email" name="email" required className="w-full border-b border-black/20 py-2 bg-transparent focus:outline-none focus:border-black" />
+        <label className="block text-xs tracking-widest uppercase text-muted mb-2">Email</label>
+        <input type="email" name="email" required className="w-full border-b border-line py-2 bg-transparent focus:outline-none focus:border-accent" />
       </div>
       <div>
-        <label className="block text-xs tracking-widest uppercase text-black/50 mb-2">
+        <label className="block text-xs tracking-widest uppercase text-muted mb-2">
           {locale === 'es' ? 'Perfil' : 'Profile'}
         </label>
-        <select name="perfil" className="w-full border-b border-black/20 py-2 bg-transparent focus:outline-none focus:border-black">
+        <select name="perfil" className="w-full border-b border-line py-2 bg-transparent focus:outline-none focus:border-accent">
           {PERFILES[locale].map((p) => <option key={p.value} value={p.value}>{p.label}</option>)}
         </select>
       </div>
       <div>
-        <label className="block text-xs tracking-widest uppercase text-black/50 mb-2">
+        <label className="block text-xs tracking-widest uppercase text-muted mb-2">
           {locale === 'es' ? 'Mensaje' : 'Message'}
         </label>
-        <textarea name="mensaje" required rows={5} className="w-full border-b border-black/20 py-2 bg-transparent focus:outline-none focus:border-black" />
+        <textarea name="mensaje" required rows={5} className="w-full border-b border-line py-2 bg-transparent focus:outline-none focus:border-accent" />
       </div>
-      <button type="submit" disabled={status === 'sending'} className="text-xs tracking-widest uppercase border border-black px-8 py-3 hover:bg-black hover:text-white transition-colors disabled:opacity-40">
+      <button type="submit" disabled={status === 'sending'} className="text-xs tracking-widest uppercase border border-accent px-8 py-3 hover:bg-accent hover:text-white hover:border-accent transition-colors disabled:opacity-40">
         {status === 'sending' ? (locale === 'es' ? 'Enviando…' : 'Sending…') : (locale === 'es' ? 'Enviar' : 'Send')}
       </button>
       {status === 'error' && (

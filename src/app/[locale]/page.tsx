@@ -8,7 +8,7 @@ import Image from 'next/image'
 async function getObrasDestacadas() {
   try {
     return await client.fetch(
-      `*[_type == "obra"] | order(_createdAt desc)[0...6]{ _id, titulo, "slug": slug.current, anio, "img": imagenes[0] }`,
+      `*[_type == "obra"] | order(_createdAt desc)[0...6]{ _id, titulo, "slug": slug.current, anio, tecnica, "img": imagenes[0] }`,
     )
   } catch {
     return []
@@ -20,46 +20,68 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
   const obras = await getObrasDestacadas()
 
   return (
-    <div className="pt-32 pb-16">
-      <section className="px-6 md:px-10">
+    <div>
+      <section className="min-h-[90vh] flex flex-col justify-center px-6 md:px-12 pt-24">
         <Reveal>
-          <h1 className="text-4xl md:text-7xl font-light tracking-tight max-w-4xl">
+          <p className="text-[13px] tracking-[0.2em] uppercase text-accent mb-6">
+            {locale === 'es' ? 'Pintura · Fotografía · Escultura · Obra sobre papel' : 'Painting · Photography · Sculpture · Works on paper'}
+          </p>
+        </Reveal>
+        <Reveal delay={0.1}>
+          <h1 className="font-serif italic text-5xl md:text-8xl leading-[1.05] max-w-4xl">
             {site[locale].heroTitle}
           </h1>
         </Reveal>
-        <Reveal delay={0.15}>
-          <p className="mt-6 text-base md:text-lg text-black/60 max-w-xl">
+        <Reveal delay={0.25}>
+          <p className="mt-8 text-lg text-muted max-w-md leading-relaxed">
             {site[locale].heroSubtitle}
           </p>
         </Reveal>
+        <Reveal delay={0.35}>
+          <Link
+            href={`/${locale}/contacto`}
+            className="inline-block mt-10 text-[13px] tracking-[0.1em] uppercase border-b border-accent text-accent pb-1 hover:opacity-70 transition-opacity w-fit"
+          >
+            {site[locale].cta} →
+          </Link>
+        </Reveal>
       </section>
 
-      <section className="mt-24 grid grid-cols-1 md:grid-cols-2 gap-1 px-1">
-        {obras.length === 0 && (
-          <div className="col-span-2 px-6 md:px-10 py-24 text-center text-black/40 text-sm tracking-widest uppercase">
-            Próximamente — obra cargándose desde el panel de administración
+      <section className="px-6 md:px-12 py-10">
+        {obras.length === 0 ? (
+          <Reveal>
+            <div className="border border-line rounded-sm py-24 text-center text-muted text-sm tracking-widest uppercase bg-surface">
+              {locale === 'es' ? 'Obra cargándose desde el panel de administración' : 'Work loading from the admin panel'}
+            </div>
+          </Reveal>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-x-6 gap-y-16">
+            {obras.map((obra: any, i: number) => {
+              const img = obra.img ? urlForImage(obra.img) : undefined
+              return (
+                <Reveal key={obra._id} delay={(i % 3) * 0.08}>
+                  <Link href={`/${locale}/portafolio/${obra.slug ?? ''}`} className="group block">
+                    <div className="relative aspect-[4/5] overflow-hidden bg-surface">
+                      {img && (
+                        <Image
+                          src={img.width(1000).url()}
+                          alt={obra.titulo}
+                          fill
+                          className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                        />
+                      )}
+                    </div>
+                    <div className="mt-4 flex items-baseline justify-between">
+                      <p className="font-serif italic text-lg">{obra.titulo}</p>
+                      <p className="text-xs tracking-widest uppercase text-muted">{obra.anio}</p>
+                    </div>
+                    {obra.tecnica && <p className="text-xs text-muted mt-1">{obra.tecnica}</p>}
+                  </Link>
+                </Reveal>
+              )
+            })}
           </div>
         )}
-        {obras.map((obra: any, i: number) => {
-          const img = obra.img ? urlForImage(obra.img) : undefined
-          return (
-            <Reveal key={obra._id} delay={(i % 2) * 0.1}>
-              <Link href={`/${locale}/portafolio/${obra.slug ?? ''}`} className="group block relative aspect-[4/5] overflow-hidden bg-black/5">
-                {img && (
-                  <Image
-                    src={img.width(1200).url()}
-                    alt={obra.titulo}
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                )}
-                <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/60 to-transparent text-white opacity-0 group-hover:opacity-100 transition-opacity">
-                  <p className="text-sm">{obra.titulo} {obra.anio ? `· ${obra.anio}` : ''}</p>
-                </div>
-              </Link>
-            </Reveal>
-          )
-        })}
       </section>
     </div>
   )
