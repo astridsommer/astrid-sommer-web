@@ -5,6 +5,8 @@ import Reveal from '@/components/Reveal'
 import Link from 'next/link'
 import Image from 'next/image'
 
+export const revalidate = 60
+
 async function getObrasDestacadas() {
   try {
     return await client.fetch(

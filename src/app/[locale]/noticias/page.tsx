@@ -4,6 +4,8 @@ import type { Locale } from '@/i18n/dictionary'
 import Reveal from '@/components/Reveal'
 import Image from 'next/image'
 
+export const revalidate = 60
+
 async function getNoticias() {
   try {
     return await client.fetch(

@@ -2,6 +2,8 @@ import { client } from '@/sanity/lib/client'
 import type { Locale } from '@/i18n/dictionary'
 import Reveal from '@/components/Reveal'
 
+export const revalidate = 60
+
 async function getResenas() {
   try {
     return await client.fetch(`*[_type == "resena"] | order(fecha desc){ _id, autor, medio, fecha, texto, fuenteUrl, "expoTitulo": exposicion->titulo }`)

@@ -2,6 +2,8 @@ import { client } from '@/sanity/lib/client'
 import type { Locale } from '@/i18n/dictionary'
 import Reveal from '@/components/Reveal'
 
+export const revalidate = 60
+
 async function getBio() {
   try {
     return await client.fetch(`*[_type == "bio"][0]`)

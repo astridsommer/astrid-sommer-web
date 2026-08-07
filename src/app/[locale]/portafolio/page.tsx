@@ -5,6 +5,8 @@ import Reveal from '@/components/Reveal'
 import Link from 'next/link'
 import Image from 'next/image'
 
+export const revalidate = 60
+
 const CATEGORIAS = ['Pintura', 'Fotografía', 'Escultura', 'Grabado / Monotipia / Acuarela']
 
 async function getObras() {
