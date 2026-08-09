@@ -3,8 +3,8 @@ export type Locale = (typeof locales)[number]
 export const defaultLocale: Locale = 'es'
 
 export const nav = {
-  es: { home: 'Inicio', bio: 'Bio', portafolio: 'Portafolio', exposiciones: 'Exposiciones', resenas: 'Reseñas', noticias: 'Noticias', contacto: 'Contacto' },
-  en: { home: 'Home', bio: 'Bio', portafolio: 'Portfolio', exposiciones: 'Exhibitions', resenas: 'Reviews', noticias: 'News', contacto: 'Contact' },
+  es: { home: 'Home', bio: 'Bio', portafolio: 'Obra', cv: 'CV', exposiciones: 'Exposiciones', resenas: 'Reseñas', noticias: 'Noticias', contacto: 'Contacto' },
+  en: { home: 'Home', bio: 'Bio', portafolio: 'Work', cv: 'CV', exposiciones: 'Exhibitions', resenas: 'Reviews', noticias: 'News', contacto: 'Contact' },
 }
 
 export const site = {

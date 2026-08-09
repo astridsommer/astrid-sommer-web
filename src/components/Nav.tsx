@@ -4,7 +4,9 @@ import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { nav, type Locale } from '@/i18n/dictionary'
 
-export default function Nav({ locale }: { locale: Locale }) {
+type DropdownExpo = { _id: string; titulo: string; slug: string }
+
+export default function Nav({ locale, dropdownExposiciones = [] }: { locale: Locale; dropdownExposiciones?: DropdownExpo[] }) {
   const pathname = usePathname()
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
@@ -18,11 +20,12 @@ export default function Nav({ locale }: { locale: Locale }) {
 
   const items: [string, string][] = [
     ['', nav[locale].home],
-    ['bio', nav[locale].bio],
     ['portafolio', nav[locale].portafolio],
     ['exposiciones', nav[locale].exposiciones],
-    ['resenas', nav[locale].resenas],
+    ['bio', nav[locale].bio],
+    ['cv', nav[locale].cv],
     ['noticias', nav[locale].noticias],
+    ['resenas', nav[locale].resenas],
     ['contacto', nav[locale].contacto],
   ]
   const otherLocale = locale === 'es' ? 'en' : 'es'
@@ -42,11 +45,30 @@ export default function Nav({ locale }: { locale: Locale }) {
           {items.map(([href, label]) => {
             const url = `/${locale}/${href}`.replace(/\/$/, '') || `/${locale}`
             const active = pathname === url
+            const isExpo = href === 'exposiciones'
             return (
-              <li key={href}>
+              <li key={href} className={isExpo ? 'relative group' : ''}>
                 <Link href={url} className={`transition-colors hover:text-accent ${active ? 'text-accent' : ''}`}>
                   {label}
                 </Link>
+                {isExpo && dropdownExposiciones.length > 0 && (
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 pt-3 opacity-0 pointer-events-none translate-y-1 transition-all duration-200 group-hover:opacity-100 group-hover:pointer-events-auto group-hover:translate-y-0 group-focus-within:opacity-100 group-focus-within:pointer-events-auto">
+                    <div className="min-w-[220px] bg-background/95 backdrop-blur-sm border border-line shadow-lg p-4 grid gap-3">
+                      {dropdownExposiciones.map((expo) => (
+                        <Link
+                          key={expo._id}
+                          href={`/${locale}/exposiciones`}
+                          className="text-[11px] normal-case text-foreground/65 hover:text-accent transition-colors leading-snug"
+                        >
+                          {expo.titulo}
+                        </Link>
+                      ))}
+                      <Link href={`/${locale}/exposiciones`} className="text-[11px] text-foreground/45 hover:text-accent transition-colors">
+                        {locale === 'es' ? 'Ver todas' : 'View all'}
+                      </Link>
+                    </div>
+                  </div>
+                )}
               </li>
             )
           })}

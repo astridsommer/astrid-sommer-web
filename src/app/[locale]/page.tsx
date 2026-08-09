@@ -45,7 +45,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       <section className="min-h-[90vh] grid md:grid-cols-[.9fr_1.1fr] gap-10 md:gap-16 items-center px-6 md:px-12 pt-32 pb-16">
         <Reveal>
           <p className="text-[13px] tracking-[0.2em] uppercase text-muted mb-4">{site[locale].heroSubtitle}</p>
-          <h1 className="font-serif italic text-5xl md:text-7xl leading-[1.05]">{site[locale].heroTitle}</h1>
+          <h1 className="font-sans font-extralight text-5xl md:text-7xl leading-[1.05] text-foreground/50">{site[locale].heroTitle}</h1>
         </Reveal>
         <Reveal delay={0.15}>
           {heroImages.length > 0 ? (
@@ -64,7 +64,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       {exposiciones.length > 0 && (
         <section className="py-16 md:py-24 px-6 md:px-12">
           <Reveal>
-            <h2 className="text-3xl md:text-5xl font-light text-foreground/40 mb-10">
+            <h2 className="text-3xl md:text-5xl font-sans font-extralight text-foreground/40 mb-10">
               {locale === 'es' ? 'Exposiciones' : 'Exhibitions'}
             </h2>
           </Reveal>
@@ -82,7 +82,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                     <span>Expo</span>
                     <span>{[anio, lugarCorto].filter(Boolean).join(' · ')}</span>
                   </div>
-                  <p className="font-serif italic text-lg mb-1">{expo.titulo}</p>
+                  <p className="font-sans font-medium text-lg text-foreground/75 mb-1">{expo.titulo}</p>
                   {expo.textoCorto && <p className="text-sm text-muted leading-relaxed">{expo.textoCorto}</p>}
                 </Link>
               )
@@ -95,7 +95,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       {obraDelMes && (
         <section className="py-16 md:py-24 px-6 md:px-12">
           <Reveal>
-            <h2 className="text-3xl md:text-5xl font-light text-foreground/40 mb-10">
+            <h2 className="text-3xl md:text-5xl font-sans font-extralight text-foreground/40 mb-10">
               {locale === 'es' ? 'Obra del mes' : 'Featured work'}
             </h2>
           </Reveal>
@@ -138,7 +138,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       {estudioObras.length > 0 && (
         <section className="py-16 md:py-24 px-6 md:px-12 border-t border-line">
           <Reveal>
-            <h2 className="text-3xl md:text-5xl font-light text-foreground/40 mb-10">
+            <h2 className="text-3xl md:text-5xl font-sans font-extralight text-foreground/40 mb-10">
               {locale === 'es' ? 'Estudio' : 'Studio'}
             </h2>
           </Reveal>
@@ -148,7 +148,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                 <div className="relative aspect-[3/4] bg-surface overflow-hidden mb-4">
                   {o.img && <Image src={urlForImage(o.img)!.width(800).url()} alt={o.titulo} fill className="object-cover" />}
                 </div>
-                <p className="font-serif italic text-lg">{o.titulo}</p>
+                <p className="font-sans font-medium text-lg text-foreground/75">{o.titulo}</p>
               </Reveal>
             ))}
           </div>
@@ -159,7 +159,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       {bioDoc?.resumenHome?.[locale] && (
         <section className="py-16 md:py-24 px-6 md:px-12 border-t border-line grid md:grid-cols-[.7fr_1.3fr] gap-10 md:gap-16">
           <Reveal>
-            <h2 className="text-3xl md:text-5xl font-light text-foreground/40">Bio</h2>
+            <h2 className="text-3xl md:text-5xl font-sans font-extralight text-foreground/40">Bio</h2>
           </Reveal>
           <Reveal delay={0.1}>
             <p className="text-lg md:text-xl leading-relaxed text-foreground/80 mb-8">{bioDoc.resumenHome[locale]}</p>
@@ -184,7 +184,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       {noticias.length > 0 && (
         <section className="py-16 md:py-24 px-6 md:px-12 border-t border-line">
           <Reveal>
-            <h2 className="text-3xl md:text-5xl font-light text-foreground/40 mb-10">
+            <h2 className="text-3xl md:text-5xl font-sans font-extralight text-foreground/40 mb-10">
               {locale === 'es' ? 'Noticias' : 'News'}
             </h2>
           </Reveal>
@@ -201,7 +201,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                       <span>{n.tipo || (locale === 'es' ? 'Noticia' : 'News')}</span>
                       <span>{n.fecha}</span>
                     </div>
-                    <p className="font-serif italic text-lg">{n.titulo?.[locale]}</p>
+                    <p className="font-sans font-medium text-lg text-foreground/75">{n.titulo?.[locale]}</p>
                   </Link>
                 </Reveal>
               )
@@ -216,7 +216,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       {/* Contacto */}
       <section className="py-16 md:py-24 px-6 md:px-12 border-t border-line">
         <Reveal>
-          <h2 className="text-3xl md:text-5xl font-light text-foreground/40 mb-10">Contacto</h2>
+          <h2 className="text-3xl md:text-5xl font-sans font-extralight text-foreground/40 mb-10">Contacto</h2>
         </Reveal>
         <Reveal delay={0.1}>
           <div className="grid gap-0 max-w-xl">

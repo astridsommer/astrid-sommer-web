@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { locales, type Locale } from '@/i18n/dictionary'
+import { client } from '@/sanity/lib/client'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 
@@ -12,6 +13,16 @@ export const metadata: Metadata = {
   description: 'Astrid Sommer — artista visual. Pintura, fotografía, escultura y obra sobre papel.',
 }
 
+async function getDropdownExposiciones() {
+  try {
+    return await client.fetch(
+      `*[_type == "exposicion" && mostrarEnDropdown == true] | order(orden asc)[0...4]{ _id, titulo, "slug": slug.current }`,
+    )
+  } catch {
+    return []
+  }
+}
+
 export default async function LocaleLayout({
   children,
   params,
@@ -20,9 +31,10 @@ export default async function LocaleLayout({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params as { locale: Locale }
+  const dropdownExposiciones = await getDropdownExposiciones()
   return (
     <>
-      <Nav locale={locale} />
+      <Nav locale={locale} dropdownExposiciones={dropdownExposiciones} />
       <main>{children}</main>
       <Footer locale={locale} />
     </>
