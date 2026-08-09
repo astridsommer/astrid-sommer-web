@@ -37,43 +37,45 @@ export default function Nav({ locale, dropdownExposiciones = [] }: { locale: Loc
         scrolled || open ? 'bg-background/95 backdrop-blur-sm border-b border-line' : 'bg-transparent'
       }`}
     >
-      <nav className="flex items-center justify-between px-6 md:px-12 py-5 md:py-6">
+      <nav className="flex items-center px-6 md:px-12 py-5 md:py-6">
         <Link href={`/${locale}`} className="font-serif text-lg tracking-wide">
           Astrid Sommer
         </Link>
-        <ul className="hidden md:flex gap-9 text-[13px] tracking-[0.08em] uppercase text-foreground/70">
-          {items.map(([href, label]) => {
-            const url = `/${locale}/${href}`.replace(/\/$/, '') || `/${locale}`
-            const active = pathname === url
-            const isExpo = href === 'exposiciones'
-            return (
-              <li key={href} className={isExpo ? 'relative group' : ''}>
-                <Link href={url} className={`transition-colors hover:text-accent ${active ? 'text-accent' : ''}`}>
-                  {label}
-                </Link>
-                {isExpo && dropdownExposiciones.length > 0 && (
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 pt-3 opacity-0 pointer-events-none translate-y-1 transition-all duration-200 group-hover:opacity-100 group-hover:pointer-events-auto group-hover:translate-y-0 group-focus-within:opacity-100 group-focus-within:pointer-events-auto">
-                    <div className="min-w-[220px] bg-background/95 backdrop-blur-sm border border-line shadow-lg p-4 grid gap-3">
-                      {dropdownExposiciones.map((expo) => (
-                        <Link
-                          key={expo._id}
-                          href={`/${locale}/exposiciones`}
-                          className="text-[11px] normal-case text-foreground/65 hover:text-accent transition-colors leading-snug"
-                        >
-                          {expo.titulo}
+
+        <div className="hidden md:flex items-center gap-9 ml-auto">
+          <ul className="flex items-center gap-9 text-[13px] tracking-[0.08em] uppercase text-foreground/70">
+            {items.map(([href, label]) => {
+              const url = `/${locale}/${href}`.replace(/\/$/, '') || `/${locale}`
+              const active = pathname === url
+              const isExpo = href === 'exposiciones'
+              return (
+                <li key={href} className={isExpo ? 'relative group' : ''}>
+                  <Link href={url} className={`transition-colors hover:text-accent ${active ? 'text-accent' : ''}`}>
+                    {label}
+                  </Link>
+                  {isExpo && dropdownExposiciones.length > 0 && (
+                    <div className="absolute top-full left-0 pt-3 opacity-0 pointer-events-none translate-y-1 transition-all duration-200 group-hover:opacity-100 group-hover:pointer-events-auto group-hover:translate-y-0 group-focus-within:opacity-100 group-focus-within:pointer-events-auto">
+                      <div className="min-w-[220px] bg-background/95 backdrop-blur-sm border border-line shadow-lg p-4 grid gap-3">
+                        {dropdownExposiciones.map((expo) => (
+                          <Link
+                            key={expo._id}
+                            href={`/${locale}/exposiciones`}
+                            className="text-[11px] normal-case text-foreground/65 hover:text-accent transition-colors leading-snug"
+                          >
+                            {expo.titulo}
+                          </Link>
+                        ))}
+                        <Link href={`/${locale}/exposiciones`} className="text-[11px] text-foreground/45 hover:text-accent transition-colors">
+                          {locale === 'es' ? 'Ver todas' : 'View all'}
                         </Link>
-                      ))}
-                      <Link href={`/${locale}/exposiciones`} className="text-[11px] text-foreground/45 hover:text-accent transition-colors">
-                        {locale === 'es' ? 'Ver todas' : 'View all'}
-                      </Link>
+                      </div>
                     </div>
-                  </div>
-                )}
-              </li>
-            )
-          })}
-        </ul>
-        <div className="hidden md:block">
+                  )}
+                </li>
+              )
+            })}
+          </ul>
+
           <Link
             href={`/${otherLocale}/${restOfPath}`}
             className="text-[13px] tracking-[0.08em] uppercase text-foreground/50 hover:text-accent transition-colors"
@@ -81,12 +83,13 @@ export default function Nav({ locale, dropdownExposiciones = [] }: { locale: Loc
             {otherLocale}
           </Link>
         </div>
+
         <button
           type="button"
           aria-label={open ? 'Cerrar menú' : 'Abrir menú'}
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
-          className="md:hidden flex flex-col gap-[5px] w-7 h-7 items-center justify-center"
+          className="md:hidden ml-auto flex flex-col gap-[5px] w-7 h-7 items-center justify-center"
         >
           <span className={`block h-px w-5 bg-foreground transition-transform ${open ? 'translate-y-[3px] rotate-45' : ''}`} />
           <span className={`block h-px w-5 bg-foreground transition-transform ${open ? '-translate-y-[3px] -rotate-45' : ''}`} />
