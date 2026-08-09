@@ -10,6 +10,9 @@ export const revalidate = 60
 
 const OBRA_PROJECTION = `{ _id, titulo, "slug": slug.current, anio, tecnica, medidas, disponibilidad, "img": imagenes[0] }`
 
+const H2 = 'font-sans font-extralight text-[clamp(26px,3.1vw,48px)] leading-[1.12] text-foreground/38 mb-10 md:mb-16'
+const CARD_TITLE = 'font-sans font-normal text-[clamp(18px,1.35vw,22px)] leading-[1.1] text-foreground/62'
+
 async function getHomeData() {
   const [heroObras, exposiciones, obraDelMes, estudioObras, bioDoc, noticias, settings] = await Promise.all([
     client.fetch(`*[_type == "obra" && usarComoHero == true] | order(orden asc) ${OBRA_PROJECTION}`).catch(() => []),
@@ -42,10 +45,15 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
   return (
     <div>
       {/* Hero */}
-      <section className="min-h-[90vh] grid md:grid-cols-[.9fr_1.1fr] gap-10 md:gap-16 items-center px-6 md:px-12 pt-32 pb-16">
+      <section className="min-h-[92vh] grid md:grid-cols-[.58fr_1.42fr] gap-10 md:gap-20 items-end px-6 md:px-12 pt-32 pb-16">
         <Reveal>
-          <p className="text-[13px] tracking-[0.2em] uppercase text-muted mb-4">{site[locale].heroSubtitle}</p>
-          <h1 className="font-sans font-extralight text-5xl md:text-7xl leading-[1.05] text-foreground/50">{site[locale].heroTitle}</h1>
+          <p className="flex items-center gap-2.5 text-[11px] font-medium uppercase tracking-wide text-foreground/45 mb-4">
+            <span className="w-10 h-px bg-foreground/25" />
+            {site[locale].heroSubtitle}
+          </p>
+          <h1 className="font-sans font-extralight text-[clamp(27px,3.2vw,48px)] leading-none text-foreground/50 max-w-[13ch]">
+            {site[locale].heroTitle}
+          </h1>
         </Reveal>
         <Reveal delay={0.15}>
           {heroImages.length > 0 ? (
@@ -64,9 +72,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       {exposiciones.length > 0 && (
         <section className="py-16 md:py-24 px-6 md:px-12">
           <Reveal>
-            <h2 className="text-3xl md:text-5xl font-sans font-extralight text-foreground/40 mb-10">
-              {locale === 'es' ? 'Exposiciones' : 'Exhibitions'}
-            </h2>
+            <h2 className={H2}>{locale === 'es' ? 'Exposiciones' : 'Exhibitions'}</h2>
           </Reveal>
           <div className="flex gap-6 md:gap-10 overflow-x-auto pb-4 -mx-6 px-6 md:-mx-12 md:px-12">
             {exposiciones.map((expo: any) => {
@@ -75,15 +81,21 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
               const anio = expo.fechaInicio ? new Date(expo.fechaInicio).getFullYear() : ''
               return (
                 <Link key={expo._id} href={`/${locale}/exposiciones`} className="group block shrink-0 w-[280px] md:w-[420px]">
-                  <div className="relative aspect-[4/5] bg-surface overflow-hidden mb-4">
+                  <div className="relative aspect-[4/5] bg-surface overflow-hidden">
                     {img && <Image src={img} alt={expo.titulo} fill className="object-cover group-hover:scale-[1.03] transition-transform duration-700" />}
                   </div>
-                  <div className="flex justify-between text-xs tracking-widest uppercase text-muted mb-2">
+                  <div className="flex justify-between text-[12px] font-semibold uppercase tracking-wide text-muted mt-4">
                     <span>Expo</span>
                     <span>{[anio, lugarCorto].filter(Boolean).join(' · ')}</span>
                   </div>
-                  <p className="font-sans font-medium text-lg text-foreground/75 mb-1">{expo.titulo}</p>
-                  {expo.textoCorto && <p className="text-sm text-muted leading-relaxed">{expo.textoCorto}</p>}
+                  <h3 className={`${CARD_TITLE} mt-3.5`}>{expo.titulo}</h3>
+                  {expo.textoCorto && (
+                    <p className="mt-2.5 text-[13px] leading-relaxed text-foreground/52">{expo.textoCorto}</p>
+                  )}
+                  <span className="inline-flex items-center gap-2 mt-4 text-[12px] font-bold uppercase tracking-wide text-foreground/50">
+                    <span className="w-1.5 h-1.5 rounded-full bg-foreground/40" />
+                    {locale === 'es' ? 'Ver exposición' : 'View exhibition'}
+                  </span>
                 </Link>
               )
             })}
@@ -95,9 +107,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       {obraDelMes && (
         <section className="py-16 md:py-24 px-6 md:px-12">
           <Reveal>
-            <h2 className="text-3xl md:text-5xl font-sans font-extralight text-foreground/40 mb-10">
-              {locale === 'es' ? 'Obra del mes' : 'Featured work'}
-            </h2>
+            <h2 className={H2}>{locale === 'es' ? 'Obra del mes' : 'Featured work'}</h2>
           </Reveal>
           <div className="grid md:grid-cols-[1fr_1fr] gap-10 md:gap-16 items-end">
             <Reveal>
@@ -108,23 +118,23 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
               </div>
             </Reveal>
             <Reveal delay={0.1}>
-              <dl className="grid grid-cols-[110px_1fr] gap-y-4 text-sm border-t border-line pt-6">
-                <dt className="text-muted uppercase tracking-widest text-xs">{locale === 'es' ? 'Título' : 'Title'}</dt>
-                <dd>{obraDelMes.titulo}</dd>
+              <dl className="grid grid-cols-[110px_1fr] gap-y-4 text-[14px] border-t border-line pt-6">
+                <dt className="text-muted font-bold uppercase tracking-wide text-[11px]">{locale === 'es' ? 'Título' : 'Title'}</dt>
+                <dd className="text-foreground/80">{obraDelMes.titulo}</dd>
                 {obraDelMes.tecnica && (
                   <>
-                    <dt className="text-muted uppercase tracking-widest text-xs">{locale === 'es' ? 'Técnica' : 'Medium'}</dt>
-                    <dd>{obraDelMes.tecnica}</dd>
+                    <dt className="text-muted font-bold uppercase tracking-wide text-[11px]">{locale === 'es' ? 'Técnica' : 'Medium'}</dt>
+                    <dd className="text-foreground/80">{obraDelMes.tecnica}</dd>
                   </>
                 )}
                 {obraDelMes.medidas && (
                   <>
-                    <dt className="text-muted uppercase tracking-widest text-xs">{locale === 'es' ? 'Medidas' : 'Size'}</dt>
-                    <dd>{obraDelMes.medidas}</dd>
+                    <dt className="text-muted font-bold uppercase tracking-wide text-[11px]">{locale === 'es' ? 'Medidas' : 'Size'}</dt>
+                    <dd className="text-foreground/80">{obraDelMes.medidas}</dd>
                   </>
                 )}
-                <dt className="text-muted uppercase tracking-widest text-xs">{locale === 'es' ? 'Estado' : 'Status'}</dt>
-                <dd>{obraDelMes.disponibilidad}</dd>
+                <dt className="text-muted font-bold uppercase tracking-wide text-[11px]">{locale === 'es' ? 'Estado' : 'Status'}</dt>
+                <dd className="text-foreground/80">{obraDelMes.disponibilidad}</dd>
               </dl>
               <Link href={`/${locale}/contacto`} className="inline-block mt-8 text-[13px] tracking-[0.1em] uppercase border-b border-accent pb-1 hover:opacity-70 transition-opacity">
                 {site[locale].cta} →
@@ -138,9 +148,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       {estudioObras.length > 0 && (
         <section className="py-16 md:py-24 px-6 md:px-12 border-t border-line">
           <Reveal>
-            <h2 className="text-3xl md:text-5xl font-sans font-extralight text-foreground/40 mb-10">
-              {locale === 'es' ? 'Estudio' : 'Studio'}
-            </h2>
+            <h2 className={H2}>{locale === 'es' ? 'Estudio' : 'Studio'}</h2>
           </Reveal>
           <div className="grid md:grid-cols-3 gap-6 md:gap-10">
             {estudioObras.map((o: any) => (
@@ -148,7 +156,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                 <div className="relative aspect-[3/4] bg-surface overflow-hidden mb-4">
                   {o.img && <Image src={urlForImage(o.img)!.width(800).url()} alt={o.titulo} fill className="object-cover" />}
                 </div>
-                <p className="font-sans font-medium text-lg text-foreground/75">{o.titulo}</p>
+                <h3 className="font-sans font-medium text-[clamp(21px,1.8vw,28px)] leading-[1.1] text-foreground/68">{o.titulo}</h3>
               </Reveal>
             ))}
           </div>
@@ -157,23 +165,23 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
 
       {/* Bio resumida */}
       {bioDoc?.resumenHome?.[locale] && (
-        <section className="py-16 md:py-24 px-6 md:px-12 border-t border-line grid md:grid-cols-[.7fr_1.3fr] gap-10 md:gap-16">
+        <section className="py-16 md:py-24 px-6 md:px-12 border-t border-line grid md:grid-cols-[.72fr_1.28fr] gap-10 md:gap-16">
           <Reveal>
-            <h2 className="text-3xl md:text-5xl font-sans font-extralight text-foreground/40">Bio</h2>
+            <h2 className={H2.replace('mb-10 md:mb-16', '')}>Bio</h2>
           </Reveal>
           <Reveal delay={0.1}>
-            <p className="text-lg md:text-xl leading-relaxed text-foreground/80 mb-8">{bioDoc.resumenHome[locale]}</p>
+            <p className="text-[clamp(17px,1.55vw,22px)] leading-[1.65] text-foreground/68 mb-6">{bioDoc.resumenHome[locale]}</p>
             {Array.isArray(bioDoc.hitos) && bioDoc.hitos.length > 0 && (
               <div className="border-t border-line">
                 {bioDoc.hitos.map((h: any, i: number) => (
-                  <div key={i} className="grid grid-cols-[80px_1fr] gap-4 py-4 border-b border-line text-sm">
-                    <span className="font-medium">{h.anio}</span>
-                    <span className="text-muted">{h.texto}</span>
+                  <div key={i} className="grid grid-cols-[80px_1fr] gap-4 py-4 border-b border-line text-[14px] text-foreground/66">
+                    <time className="text-foreground font-bold">{h.anio}</time>
+                    <span>{h.texto}</span>
                   </div>
                 ))}
               </div>
             )}
-            <Link href={`/${locale}/bio`} className="inline-block mt-6 text-[13px] tracking-[0.1em] uppercase text-muted hover:text-foreground transition-colors">
+            <Link href={`/${locale}/bio`} className="inline-block mt-6 text-[12px] font-bold tracking-wide uppercase text-foreground/56 hover:text-accent transition-colors">
               {locale === 'es' ? 'Ver biografía completa →' : 'Full biography →'}
             </Link>
           </Reveal>
@@ -184,9 +192,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       {noticias.length > 0 && (
         <section className="py-16 md:py-24 px-6 md:px-12 border-t border-line">
           <Reveal>
-            <h2 className="text-3xl md:text-5xl font-sans font-extralight text-foreground/40 mb-10">
-              {locale === 'es' ? 'Noticias' : 'News'}
-            </h2>
+            <h2 className={H2}>{locale === 'es' ? 'Noticias' : 'News'}</h2>
           </Reveal>
           <div className="grid md:grid-cols-3 gap-6 md:gap-10">
             {noticias.map((n: any) => {
@@ -194,21 +200,22 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
               return (
                 <Reveal key={n._id}>
                   <Link href={`/${locale}/noticias`} className="group block">
-                    <div className="relative aspect-[5/4] bg-surface overflow-hidden mb-4">
+                    <div className="relative aspect-[1/.82] bg-surface overflow-hidden mb-4">
                       {img && <Image src={img} alt={n.titulo?.[locale] ?? ''} fill className="object-cover group-hover:scale-[1.03] transition-transform duration-700" />}
                     </div>
-                    <div className="flex justify-between text-xs tracking-widest uppercase text-muted mb-2">
+                    <div className="flex justify-between text-[12px] font-semibold uppercase tracking-wide text-muted mb-2">
                       <span>{n.tipo || (locale === 'es' ? 'Noticia' : 'News')}</span>
                       <span>{n.fecha}</span>
                     </div>
-                    <p className="font-sans font-medium text-lg text-foreground/75">{n.titulo?.[locale]}</p>
+                    <h3 className="font-sans font-medium text-[clamp(23px,2vw,31px)] leading-[1.08] text-foreground/85">{n.titulo?.[locale]}</h3>
                   </Link>
                 </Reveal>
               )
             })}
           </div>
-          <Link href={`/${locale}/noticias`} className="inline-block mt-10 text-[13px] tracking-[0.1em] uppercase text-muted hover:text-foreground transition-colors">
-            {locale === 'es' ? 'Más noticias →' : 'More news →'}
+          <Link href={`/${locale}/noticias`} className="inline-flex items-center gap-2.5 mt-10 text-[12px] font-bold tracking-wide uppercase text-foreground/56 hover:text-accent transition-colors">
+            <span className="w-8 h-px bg-foreground/30" />
+            {locale === 'es' ? 'Más noticias' : 'More news'}
           </Link>
         </section>
       )}
@@ -216,24 +223,37 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       {/* Contacto */}
       <section className="py-16 md:py-24 px-6 md:px-12 border-t border-line">
         <Reveal>
-          <h2 className="text-3xl md:text-5xl font-sans font-extralight text-foreground/40 mb-10">Contacto</h2>
+          <h2 className={H2}>Contacto</h2>
         </Reveal>
         <Reveal delay={0.1}>
-          <div className="grid gap-0 max-w-xl">
-            <a href={settings?.correo ? `mailto:${settings.correo}` : `/${locale}/contacto`} className="flex justify-between items-center py-4 border-t border-line uppercase text-sm tracking-widest hover:text-accent transition-colors">
-              {site[locale].cta} <span>↗</span>
+          <div className="grid max-w-xl">
+            <a
+              href={settings?.correo ? `mailto:${settings.correo}` : `/${locale}/contacto`}
+              className="flex justify-between items-center py-[17px] border-t border-line/70 text-[13px] font-bold uppercase tracking-wide text-foreground/74 hover:text-accent transition-colors"
+            >
+              {site[locale].cta} <span className="text-lg">↗</span>
             </a>
             {settings?.whatsapp && (
-              <a href={settings.whatsapp.startsWith('http') ? settings.whatsapp : `https://wa.me/${settings.whatsapp.replace(/\D/g, '')}`} target="_blank" rel="noreferrer" className="flex justify-between items-center py-4 border-t border-line uppercase text-sm tracking-widest hover:text-accent transition-colors">
-                WhatsApp <span>↗</span>
+              <a
+                href={settings.whatsapp.startsWith('http') ? settings.whatsapp : `https://wa.me/${settings.whatsapp.replace(/\D/g, '')}`}
+                target="_blank"
+                rel="noreferrer"
+                className="flex justify-between items-center py-[17px] border-t border-line/70 text-[13px] font-bold uppercase tracking-wide text-foreground/74 hover:text-accent transition-colors"
+              >
+                WhatsApp <span className="text-lg">↗</span>
               </a>
             )}
             {settings?.instagram && (
-              <a href={settings.instagram.startsWith('http') ? settings.instagram : `https://instagram.com/${settings.instagram.replace('@', '')}`} target="_blank" rel="noreferrer" className="flex justify-between items-center py-4 border-t border-line uppercase text-sm tracking-widest hover:text-accent transition-colors">
-                Instagram <span>↗</span>
+              <a
+                href={settings.instagram.startsWith('http') ? settings.instagram : `https://instagram.com/${settings.instagram.replace('@', '')}`}
+                target="_blank"
+                rel="noreferrer"
+                className="flex justify-between items-center py-[17px] border-t border-line/70 text-[13px] font-bold uppercase tracking-wide text-foreground/74 hover:text-accent transition-colors"
+              >
+                Instagram <span className="text-lg">↗</span>
               </a>
             )}
-            <div className="py-4 border-t border-b border-line" />
+            <div className="border-t border-b border-line/70 h-[17px]" />
           </div>
         </Reveal>
       </section>
