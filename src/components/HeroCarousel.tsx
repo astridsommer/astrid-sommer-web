@@ -14,7 +14,7 @@ export default function HeroCarousel({ images }: { images: { url: string; alt: s
   if (images.length === 0) return null
 
   return (
-    <div className="relative aspect-[4/5] md:aspect-[3/4] overflow-hidden bg-surface rounded-sm">
+    <div className="relative aspect-[5/4] md:aspect-[16/9] max-h-[58vh] overflow-hidden bg-surface rounded-sm">
       {images.map((img, i) => (
         <div
           key={img.url}
