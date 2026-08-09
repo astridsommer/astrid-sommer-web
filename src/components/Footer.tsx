@@ -24,7 +24,12 @@ export default function Footer({ locale }: { locale: Locale }) {
           </a>
         </div>
       </div>
-      <p className="text-xs text-muted mt-12">&copy; {new Date().getFullYear()} Astrid Sommer</p>
+      <div className="flex items-center justify-between mt-12">
+        <p className="text-xs text-muted">&copy; {new Date().getFullYear()} Astrid Sommer</p>
+        <Link href="/studio" className="text-xs text-muted/60 hover:text-muted transition-colors">
+          Admin
+        </Link>
+      </div>
     </footer>
   )
 }

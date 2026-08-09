@@ -1,13 +1,13 @@
 @import "tailwindcss";
 
 :root {
-  --background: #FAF6F1;      /* crema roto cálido */
-  --foreground: #2B2622;      /* casi-negro cálido, no negro puro */
-  --muted: #857D74;           /* gris cálido para texto secundario */
-  --line: #E4DBD0;            /* líneas y bordes sutiles */
-  --accent: #A85C3B;          /* terracota, usar con moderación */
-  --accent-soft: #EFE1D6;     /* fondo suave del acento */
-  --surface: #F2ECE4;         /* superficie de tarjetas/bloques */
+  --background: #FBFAF7;      /* mineral claro, no blanco duro */
+  --foreground: #2B2A27;      /* grafito, no negro puro */
+  --muted: #6C6861;           /* gris grafito suave para texto secundario */
+  --line: rgba(43, 42, 39, .14);
+  --accent: rgba(43, 42, 39, .55); /* grafito medio — el color real lo aporta la obra */
+  --accent-soft: #F3F2EE;
+  --surface: #F3F2EE;         /* superficie de tarjetas/bloques */
 
   --font-serif: var(--font-fraunces);
   --font-sans: var(--font-inter);

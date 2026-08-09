@@ -4,5 +4,17 @@ import { obra } from './obra'
 import { exposicion } from './exposicion'
 import { resena } from './resena'
 import { bio } from './bio'
+import { cvEntry } from './cvEntry'
+import { siteSettings } from './siteSettings'
 
-export const schemaTypes = [localeString, localeText, noticia, obra, exposicion, resena, bio]
+export const schemaTypes = [
+  localeString,
+  localeText,
+  noticia,
+  obra,
+  exposicion,
+  resena,
+  bio,
+  cvEntry,
+  siteSettings,
+]
