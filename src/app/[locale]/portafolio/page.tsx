@@ -2,7 +2,7 @@ import { client } from '@/sanity/lib/client'
 import type { Locale } from '@/i18n/dictionary'
 import Reveal from '@/components/Reveal'
 import ObraArchivo from '@/components/ObraArchivo'
-import { PAGE_TITLE } from '@/lib/homeStyles'
+import { PAGE_TITLE, PAGE_TITLE_WRAP } from '@/lib/homeStyles'
 
 export const revalidate = 60
 
@@ -23,7 +23,7 @@ export default async function Portafolio({ params }: { params: Promise<{ locale:
   return (
     <div className="pt-32 pb-24 px-6 md:px-10">
       <Reveal>
-        <h1 className={`${PAGE_TITLE} mb-12`}>{locale === 'es' ? 'Obra' : 'Work'}</h1>
+        <h1 className={`${PAGE_TITLE} ${PAGE_TITLE_WRAP}`}>{locale === 'es' ? 'Obra' : 'Work'}</h1>
       </Reveal>
 
       {obras.length === 0 ? (

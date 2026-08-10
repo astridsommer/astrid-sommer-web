@@ -2,7 +2,7 @@ import { client } from '@/sanity/lib/client'
 import { urlForImage } from '@/sanity/lib/image'
 import type { Locale } from '@/i18n/dictionary'
 import Reveal from '@/components/Reveal'
-import { PAGE_TITLE } from '@/lib/homeStyles'
+import { PAGE_TITLE, PAGE_TITLE_WRAP } from '@/lib/homeStyles'
 import Link from 'next/link'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
@@ -55,8 +55,9 @@ export default async function ExposicionDetalle({ params }: { params: Promise<{ 
         <p className="text-[12px] font-semibold uppercase tracking-wide text-muted mt-6 mb-2">
           {[anio, expo.lugar].filter(Boolean).join(' · ')}
         </p>
-        <h1 className={`${PAGE_TITLE} mb-4`}>{expo.titulo}</h1>
-        {lugarCompleto && <p className="text-[14px] text-foreground/60 mb-12">{lugarCompleto}</p>}
+        <h1 className={PAGE_TITLE}>{expo.titulo}</h1>
+        {lugarCompleto && <p className="text-[14px] text-foreground/60 mt-3">{lugarCompleto}</p>}
+        <div className={PAGE_TITLE_WRAP} />
       </Reveal>
 
       {portada && (

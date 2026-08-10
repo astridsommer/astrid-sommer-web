@@ -58,9 +58,12 @@ export function heroDescriptorClases(v?: { heroDescriptorTamano?: string; heroDe
     .join(' ')
 }
 
-// Título principal (h1) de todas las subpáginas — mismo sistema visual que
-// los títulos de sección del Home: sans, delgado, gris bajo, sobrio.
-export const PAGE_TITLE = 'font-sans font-extralight text-[clamp(28px,3.4vw,50px)] leading-[1.1] text-foreground/45'
+// Título principal (h1) de todas las páginas interiores (todo excepto Home).
+// Mismo sistema en todas: alineado a la izquierda, chico, gris sutil, peso
+// ligero. `PAGE_TITLE_WRAP` fija el mismo espacio de aire debajo del título
+// en cada página, para que la altura visual sea idéntica en todo el sitio.
+export const PAGE_TITLE = 'font-sans font-extralight text-left text-[clamp(20px,2vw,30px)] leading-[1.2] text-foreground/40'
+export const PAGE_TITLE_WRAP = 'mb-14 md:mb-16'
 
 export function seccionTituloClases(v?: { seccionTituloTamano?: string; seccionTituloPeso?: string; seccionTituloColor?: string } | null) {
   return [

@@ -3,7 +3,7 @@ import type { Locale } from '@/i18n/dictionary'
 import { site } from '@/i18n/dictionary'
 import Reveal from '@/components/Reveal'
 import ContactRow from '@/components/ContactRow'
-import { PAGE_TITLE } from '@/lib/homeStyles'
+import { PAGE_TITLE, PAGE_TITLE_WRAP } from '@/lib/homeStyles'
 import Link from 'next/link'
 
 export const revalidate = 60
@@ -27,7 +27,7 @@ export default async function Contacto({ params }: { params: Promise<{ locale: s
       <div className="grid md:grid-cols-[1fr_.55fr] gap-10 md:gap-20 items-start mb-20">
         <Reveal>
           <h1 className={PAGE_TITLE}>{locale === 'es' ? 'Contacto' : 'Contact'}</h1>
-          <p className="mt-6 max-w-md text-[15px] leading-relaxed text-foreground/65">{site[locale].contactIntro}</p>
+          <p className={`${PAGE_TITLE_WRAP} mt-6 max-w-md text-[15px] leading-relaxed text-foreground/65`}>{site[locale].contactIntro}</p>
         </Reveal>
 
         <Reveal delay={0.1}>

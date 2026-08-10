@@ -2,7 +2,7 @@ import { client } from '@/sanity/lib/client'
 import { urlForImage } from '@/sanity/lib/image'
 import type { Locale } from '@/i18n/dictionary'
 import Reveal from '@/components/Reveal'
-import { PAGE_TITLE } from '@/lib/homeStyles'
+import { PAGE_TITLE, PAGE_TITLE_WRAP } from '@/lib/homeStyles'
 import Link from 'next/link'
 import Image from 'next/image'
 
@@ -25,7 +25,7 @@ export default async function Exposiciones({ params }: { params: Promise<{ local
   return (
     <div className="pt-32 pb-24 px-6 md:px-10">
       <Reveal>
-        <h1 className={`${PAGE_TITLE} mb-16`}>{locale === 'es' ? 'Exposiciones' : 'Exhibitions'}</h1>
+        <h1 className={`${PAGE_TITLE} ${PAGE_TITLE_WRAP}`}>{locale === 'es' ? 'Exposiciones' : 'Exhibitions'}</h1>
       </Reveal>
       {exposiciones.length === 0 ? (
         <p className="text-muted text-sm tracking-widest uppercase py-12 text-center">
