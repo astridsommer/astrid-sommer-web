@@ -1,11 +1,15 @@
 import type { StructureResolver } from 'sanity/structure'
 
-const SINGLETONS = ['bio', 'siteSettings']
+const SINGLETONS = ['bio', 'siteSettings', 'homePage']
 
 export const structure: StructureResolver = (S) =>
   S.list()
     .title('Astrid Sommer — Panel de contenido')
     .items([
+      S.listItem()
+        .title('Home')
+        .child(S.document().schemaType('homePage').documentId('homePage').title('Home — textos y estilo')),
+
       S.listItem()
         .title('Bio')
         .child(S.documentTypeList('bio').title('Bio')),

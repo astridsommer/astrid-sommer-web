@@ -5,13 +5,22 @@ import Reveal from '@/components/Reveal'
 import HeroCarousel from '@/components/HeroCarousel'
 import Link from 'next/link'
 import Image from 'next/image'
+import { heroNombreClases, heroDescriptorClases, seccionTituloClases } from '@/lib/homeStyles'
 
 export const revalidate = 60
 
 const OBRA_PROJECTION = `{ _id, titulo, "slug": slug.current, anio, tecnica, medidas, disponibilidad, "img": imagenes[0] }`
 
-const H2 = 'font-sans font-extralight text-[clamp(24px,2.6vw,42px)] leading-[1.12] text-foreground/38'
 const CARD_TITLE = 'font-sans font-normal text-[clamp(18px,1.35vw,22px)] leading-[1.1] text-foreground/62'
+
+const HOME_PAGE_PROJECTION = `{
+  heroNombre, heroNombreMostrar, heroDescriptor, heroDescriptorMostrar,
+  heroNombreTamano, heroNombrePeso, heroNombreColor,
+  heroDescriptorTamano, heroDescriptorColor, heroDescriptorMayusculas,
+  seccionTituloTamano, seccionTituloPeso, seccionTituloColor,
+  tituloExposiciones, tituloObraDelMes, tituloEstudio, tituloBio, tituloNoticias, tituloContacto,
+  mostrarExposiciones, mostrarObraDelMes, mostrarEstudio, mostrarBio, mostrarNoticias, mostrarContacto
+}`
 
 function Placeholder({ children }: { children: React.ReactNode }) {
   return (
@@ -22,7 +31,7 @@ function Placeholder({ children }: { children: React.ReactNode }) {
 }
 
 async function getHomeData() {
-  const [heroObras, exposiciones, obraDelMes, estudioObras, bioDoc, noticias, settings] = await Promise.all([
+  const [heroObras, exposiciones, obraDelMes, estudioObras, bioDoc, noticias, settings, homePageDoc] = await Promise.all([
     client.fetch(`*[_type == "obra" && usarComoHero == true] | order(orden asc) ${OBRA_PROJECTION}`).catch(() => []),
     client
       .fetch(`*[_type == "exposicion" && mostrarEnHome == true] | order(orden asc){ _id, titulo, "slug": slug.current, fechaInicio, lugar, ciudad, pais, textoCorto, "portada": portada }`)
@@ -38,14 +47,19 @@ async function getHomeData() {
     client
       .fetch(`*[_type == "siteSettings"][0]{ correo, whatsapp, instagram, catalogoActivo, "catalogoUrl": catalogoArchivo.asset->url }`)
       .catch(() => null),
+    client.fetch(`*[_type == "homePage"][0] ${HOME_PAGE_PROJECTION}`).catch(() => null),
   ])
 
-  return { heroObras, exposiciones, obraDelMes, estudioObras, bioDoc, noticias, settings }
+  return { heroObras, exposiciones, obraDelMes, estudioObras, bioDoc, noticias, settings, homePageDoc }
 }
 
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params as { locale: Locale }
-  const { heroObras, exposiciones, obraDelMes, estudioObras, bioDoc, noticias, settings } = await getHomeData()
+  const { heroObras, exposiciones, obraDelMes, estudioObras, bioDoc, noticias, settings, homePageDoc: hp } = await getHomeData()
+
+  const t = (override: string | undefined | null, fallback: string) => (override && override.trim() ? override : fallback)
+  const H2 = seccionTituloClases(hp)
+  const show = (v: boolean | undefined | null) => v !== false
 
   const heroImages = (heroObras.length > 0 ? heroObras : []).flatMap((o: any) => {
     const url = o.img ? urlForImage(o.img)?.width(1400).url() : undefined
@@ -58,13 +72,17 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       <section className="h-[calc(100svh-76px)] md:h-[calc(100svh-96px)] grid md:grid-cols-[.5fr_1.5fr] gap-8 md:gap-16 px-6 md:px-12 pt-24 md:pt-28 pb-10">
         <div className="self-end">
           <Reveal>
-            <p className="flex items-center gap-2.5 text-[11px] font-medium uppercase tracking-wide text-foreground/45 mb-3">
-              <span className="w-8 h-px bg-foreground/25" />
-              {site[locale].heroSubtitle}
-            </p>
-            <h1 className="font-sans font-extralight text-[clamp(24px,2.6vw,40px)] leading-none text-foreground/50 max-w-[13ch]">
-              {site[locale].heroTitle}
-            </h1>
+            {show(hp?.heroDescriptorMostrar) && (
+              <p className={`flex items-center gap-2.5 font-medium tracking-wide text-foreground/45 mb-3 ${heroDescriptorClases(hp)}`}>
+                <span className="w-8 h-px bg-foreground/25" />
+                {t(hp?.heroDescriptor, site[locale].heroSubtitle)}
+              </p>
+            )}
+            {show(hp?.heroNombreMostrar) && (
+              <h1 className={`font-sans leading-none max-w-[13ch] ${heroNombreClases(hp)}`}>
+                {t(hp?.heroNombre, site[locale].heroTitle)}
+              </h1>
+            )}
           </Reveal>
         </div>
         <Reveal delay={0.15} className="h-full min-h-0">
@@ -81,9 +99,10 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       </section>
 
       {/* 2. Exposiciones — margen intencional para que no quede pegada al hero */}
+      {show(hp?.mostrarExposiciones) && (
       <section className="pt-24 md:pt-36 pb-14 md:pb-20 px-6 md:px-12">
         <Reveal>
-          <h2 className={`${H2} mb-8 md:mb-12`}>{locale === 'es' ? 'Exposiciones' : 'Exhibitions'}</h2>
+          <h2 className={`${H2} mb-8 md:mb-12`}>{t(hp?.tituloExposiciones, locale === 'es' ? 'Exposiciones' : 'Exhibitions')}</h2>
         </Reveal>
         {exposiciones.length > 0 ? (
           <div className="flex gap-6 md:gap-10 overflow-x-auto pb-4 -mx-6 px-6 md:-mx-12 md:px-12">
@@ -120,11 +139,13 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           </Placeholder>
         )}
       </section>
+      )}
 
       {/* 3. Obra del mes */}
+      {show(hp?.mostrarObraDelMes) && (
       <section className="py-14 md:py-20 px-6 md:px-12">
         <Reveal>
-          <h2 className={`${H2} mb-8 md:mb-12`}>{locale === 'es' ? 'Obra del mes' : 'Featured work'}</h2>
+          <h2 className={`${H2} mb-8 md:mb-12`}>{t(hp?.tituloObraDelMes, locale === 'es' ? 'Obra del mes' : 'Featured work')}</h2>
         </Reveal>
         {obraDelMes ? (
           <div className="grid md:grid-cols-[1fr_1fr] gap-10 md:gap-16 items-end">
@@ -167,11 +188,13 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           </Placeholder>
         )}
       </section>
+      )}
 
       {/* 4. Estudio */}
+      {show(hp?.mostrarEstudio) && (
       <section className="py-14 md:py-20 px-6 md:px-12 border-t border-line">
         <Reveal>
-          <h2 className={`${H2} mb-8 md:mb-12`}>{locale === 'es' ? 'Estudio' : 'Studio'}</h2>
+          <h2 className={`${H2} mb-8 md:mb-12`}>{t(hp?.tituloEstudio, locale === 'es' ? 'Estudio' : 'Studio')}</h2>
         </Reveal>
         {estudioObras.length > 0 ? (
           <div className="grid md:grid-cols-3 gap-6 md:gap-10">
@@ -192,11 +215,13 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           </Placeholder>
         )}
       </section>
+      )}
 
       {/* 5. Bio */}
+      {show(hp?.mostrarBio) && (
       <section className="py-14 md:py-20 px-6 md:px-12 border-t border-line grid md:grid-cols-[.72fr_1.28fr] gap-10 md:gap-16">
         <Reveal>
-          <h2 className={H2}>Bio</h2>
+          <h2 className={H2}>{t(hp?.tituloBio, 'Bio')}</h2>
         </Reveal>
         <Reveal delay={0.1}>
           {bioDoc?.resumenHome?.[locale] ? (
@@ -225,11 +250,13 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           )}
         </Reveal>
       </section>
+      )}
 
       {/* 6. Noticias */}
+      {show(hp?.mostrarNoticias) && (
       <section className="py-14 md:py-20 px-6 md:px-12 border-t border-line">
         <Reveal>
-          <h2 className={`${H2} mb-8 md:mb-12`}>{locale === 'es' ? 'Noticias' : 'News'}</h2>
+          <h2 className={`${H2} mb-8 md:mb-12`}>{t(hp?.tituloNoticias, locale === 'es' ? 'Noticias' : 'News')}</h2>
         </Reveal>
         {noticias.length > 0 ? (
           <>
@@ -269,12 +296,14 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           </Placeholder>
         )}
       </section>
+      )}
 
       {/* 7. Contacto */}
+      {show(hp?.mostrarContacto) && (
       <section className="min-h-[64vh] md:min-h-[74vh] flex items-end px-6 md:px-12 py-14 md:py-20 border-t border-line">
         <div className="grid md:grid-cols-[1fr_.5fr] gap-8 md:gap-20 items-end w-full">
           <Reveal>
-            <h2 className={H2}>Contacto</h2>
+            <h2 className={H2}>{t(hp?.tituloContacto, 'Contacto')}</h2>
           </Reveal>
           <Reveal delay={0.1}>
             <div className="w-full md:max-w-[480px] md:justify-self-end grid">
@@ -307,6 +336,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           </Reveal>
         </div>
       </section>
+      )}
     </div>
   )
 }

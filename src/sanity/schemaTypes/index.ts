@@ -6,6 +6,7 @@ import { resena } from './resena'
 import { bio } from './bio'
 import { cvEntry } from './cvEntry'
 import { siteSettings } from './siteSettings'
+import { homePage } from './homePage'
 
 export const schemaTypes = [
   localeString,
@@ -17,4 +18,5 @@ export const schemaTypes = [
   bio,
   cvEntry,
   siteSettings,
+  homePage,
 ]
