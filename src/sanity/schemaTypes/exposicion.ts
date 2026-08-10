@@ -20,6 +20,10 @@ export const exposicion = defineType({
     }),
     defineField({ name: 'textoCuratorial', title: 'Texto curatorial (completo)', type: 'localeText' }),
     defineField({
+      name: 'fotosMontaje', title: 'Fotos de montaje / sala', type: 'array',
+      of: [{ type: 'image', options: { hotspot: true } }],
+    }),
+    defineField({
       name: 'mostrarEnHome', title: 'Mostrar en Home', type: 'boolean',
       initialValue: false, group: 'home',
     }),

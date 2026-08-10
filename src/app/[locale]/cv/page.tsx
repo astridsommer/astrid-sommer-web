@@ -1,6 +1,7 @@
 import { client } from '@/sanity/lib/client'
 import type { Locale } from '@/i18n/dictionary'
 import Reveal from '@/components/Reveal'
+import { PAGE_TITLE } from '@/lib/homeStyles'
 
 export const revalidate = 60
 
@@ -23,7 +24,7 @@ export default async function Cv({ params }: { params: Promise<{ locale: string 
   return (
     <div className="pt-32 pb-24 px-6 md:px-10">
       <Reveal>
-        <h1 className="font-sans font-extralight text-4xl md:text-6xl leading-[1.05] text-foreground/50 mb-16">CV</h1>
+        <h1 className={`${PAGE_TITLE} mb-16`}>CV</h1>
       </Reveal>
 
       {entries.length === 0 ? (

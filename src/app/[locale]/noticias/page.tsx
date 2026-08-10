@@ -3,6 +3,7 @@ import { urlForImage } from '@/sanity/lib/image'
 import type { Locale } from '@/i18n/dictionary'
 import Reveal from '@/components/Reveal'
 import Image from 'next/image'
+import { PAGE_TITLE } from '@/lib/homeStyles'
 
 export const revalidate = 60
 
@@ -23,7 +24,7 @@ export default async function Noticias({ params }: { params: Promise<{ locale: s
   return (
     <div className="pt-32 pb-24 px-6 md:px-10 max-w-3xl mx-auto">
       <Reveal>
-        <h1 className="text-4xl md:text-6xl italic font-light mb-16">
+        <h1 className={`${PAGE_TITLE} mb-16`}>
           {locale === 'es' ? 'Noticias' : 'News'}
         </h1>
       </Reveal>

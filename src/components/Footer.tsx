@@ -31,8 +31,8 @@ export default function Footer({ locale }: { locale: Locale }) {
             <span className="text-foreground/30">·</span>
           </span>
         ))}
-        <a href="/studio" target="_blank" rel="noreferrer" className="hover:text-accent transition-colors">
-          Admin
+        <a href="/studio" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors">
+          Login
         </a>
       </span>
     </footer>

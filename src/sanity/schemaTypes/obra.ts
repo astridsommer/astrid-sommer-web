@@ -10,7 +10,7 @@ export const obra = defineType({
     defineField({ name: 'anio', title: 'Año', type: 'number' }),
     defineField({
       name: 'tecnica', title: 'Técnica / medio', type: 'string',
-      options: { list: ['Pintura', 'Fotografía', 'Escultura', 'Grabado / Monotipia / Acuarela'] },
+      options: { list: ['Pintura', 'Fotografía', 'Escultura', 'Obra sobre papel'] },
     }),
     defineField({ name: 'medidas', title: 'Medidas', type: 'string' }),
     defineField({ name: 'imagenes', title: 'Imágenes', type: 'array', of: [{ type: 'image', options: { hotspot: true } }] }),
@@ -19,6 +19,11 @@ export const obra = defineType({
       options: { list: ['Disponible', 'Consultar', 'Vendida'] }, initialValue: 'Consultar',
     }),
     defineField({ name: 'exposiciones', title: 'Exposiciones relacionadas', type: 'array', of: [{ type: 'reference', to: [{ type: 'exposicion' }] }] }),
+    defineField({
+      name: 'keywords', title: 'Palabras clave', type: 'array', of: [{ type: 'string' }],
+      description: 'Opcional. Ayudan a que esta obra aparezca en la búsqueda de la página "Obra" (ej. serie, tema, color).',
+      options: { layout: 'tags' },
+    }),
     defineField({
       name: 'orden', title: 'Orden', type: 'number',
       description: 'Número más bajo aparece primero. Déjalo vacío si no importa el orden.',

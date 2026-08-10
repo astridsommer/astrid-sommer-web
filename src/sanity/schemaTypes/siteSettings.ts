@@ -17,8 +17,16 @@ export const siteSettings = defineType({
       hidden: ({ document }) => !document?.catalogoActivo,
     }),
     defineField({ name: 'footerTexto', title: 'Texto del pie de página', type: 'string' }),
-    defineField({ name: 'avisoPrivacidadUrl', title: 'Enlace a aviso de privacidad', type: 'url' }),
-    defineField({ name: 'derechosImagenUrl', title: 'Enlace a derechos de imagen / reproducción', type: 'url' }),
+    defineField({ name: 'avisoPrivacidadUrl', title: 'Enlace externo a aviso de privacidad (opcional)', type: 'url' }),
+    defineField({ name: 'derechosImagenUrl', title: 'Enlace externo a derechos de imagen / reproducción (opcional)', type: 'url' }),
+    defineField({
+      name: 'avisoPrivacidadTexto', title: 'Texto — Aviso de privacidad', type: 'text', rows: 10,
+      description: 'Contenido de la página pública /aviso-privacidad. Si lo dejas vacío, se muestra un texto genérico temporal.',
+    }),
+    defineField({
+      name: 'derechosImagenTexto', title: 'Texto — Derechos de imagen y reproducción', type: 'text', rows: 10,
+      description: 'Contenido de la página pública /derechos-imagen. Si lo dejas vacío, se muestra un texto genérico temporal.',
+    }),
   ],
   preview: { prepare: () => ({ title: 'Contacto y ajustes del sitio' }) },
 })
