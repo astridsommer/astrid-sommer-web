@@ -21,18 +21,18 @@ export default async function BioPage({ params }: { params: Promise<{ locale: st
   const foto = bio?.foto ? urlForImage(bio.foto)?.width(900).url() : undefined
 
   return (
-    <div className="pt-32 pb-24 px-6 md:px-10 max-w-4xl mx-auto">
+    <div className="pt-32 pb-24 px-6 md:px-10">
       <Reveal>
         <h1 className={`${PAGE_TITLE} ${PAGE_TITLE_WRAP}`}>
           {locale === 'es' ? 'Biografía' : 'Biography'}
         </h1>
       </Reveal>
 
-      <div className={foto ? 'grid md:grid-cols-[.85fr_1.15fr] gap-10 md:gap-16 items-start' : ''}>
+      <div className={`max-w-4xl ${foto ? 'grid md:grid-cols-[.85fr_1.15fr] gap-10 md:gap-16 items-start' : ''}`}>
         {foto && (
           <Reveal delay={0.05}>
             <div className="relative aspect-[4/5] bg-surface overflow-hidden">
-              <Image src={foto} alt={locale === 'es' ? 'Astrid Sommer' : 'Astrid Sommer'} fill className="object-cover" />
+              <Image src={foto} alt={locale === 'es' ? 'Astrid Sommer' : 'Astrid Sommer'} fill className="object-contain" />
             </div>
           </Reveal>
         )}
@@ -60,7 +60,7 @@ export default async function BioPage({ params }: { params: Promise<{ locale: st
       </div>
 
       {bio?.estudios?.length > 0 && (
-        <Reveal delay={0.2}>
+        <Reveal delay={0.2} className="max-w-4xl">
           <h2 className="mt-12 text-sm tracking-widest uppercase text-muted">
             {locale === 'es' ? 'Estudios' : 'Studies'}
           </h2>
@@ -70,7 +70,7 @@ export default async function BioPage({ params }: { params: Promise<{ locale: st
         </Reveal>
       )}
       {bio?.premios?.length > 0 && (
-        <Reveal delay={0.3}>
+        <Reveal delay={0.3} className="max-w-4xl">
           <h2 className="mt-12 text-sm tracking-widest uppercase text-muted">
             {locale === 'es' ? 'Premios y bienales' : 'Awards & biennials'}
           </h2>

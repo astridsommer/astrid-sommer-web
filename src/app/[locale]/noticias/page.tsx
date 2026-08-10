@@ -22,18 +22,18 @@ export default async function Noticias({ params }: { params: Promise<{ locale: s
   const noticias = await getNoticias()
 
   return (
-    <div className="pt-32 pb-24 px-6 md:px-10 max-w-3xl mx-auto">
+    <div className="pt-32 pb-24 px-6 md:px-10">
       <Reveal>
         <h1 className={`${PAGE_TITLE} ${PAGE_TITLE_WRAP}`}>
           {locale === 'es' ? 'Noticias' : 'News'}
         </h1>
       </Reveal>
       {noticias.length === 0 ? (
-        <p className="text-muted text-sm tracking-widest uppercase py-12 text-center">
+        <p className="text-muted text-sm tracking-widest uppercase py-12 max-w-3xl">
           {locale === 'es' ? 'Aún no hay noticias publicadas' : 'No news published yet'}
         </p>
       ) : (
-        <ul className="space-y-16">
+        <ul className="space-y-16 max-w-3xl">
           {noticias.map((n: any) => {
             const img = n.imagenDestacada ? urlForImage(n.imagenDestacada) : undefined
             return (

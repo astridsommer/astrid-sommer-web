@@ -60,8 +60,8 @@ export default async function ObraDetalle({ params }: { params: Promise<{ locale
         </Link>
       </Reveal>
 
-      <div className={`grid md:grid-cols-[1.3fr_1fr] gap-10 md:gap-16 mt-8`}>
-        <Reveal delay={0.05}>
+      <div className="grid md:grid-cols-4 gap-10 md:gap-16 mt-8">
+        <Reveal delay={0.05} className="md:col-span-3">
           <div className="relative w-full bg-surface overflow-hidden aspect-[4/5]">
             {img ? (
               <Image src={img} alt={obra.titulo ?? ''} fill className="object-contain" />
@@ -73,7 +73,7 @@ export default async function ObraDetalle({ params }: { params: Promise<{ locale
           </div>
         </Reveal>
 
-        <Reveal delay={0.1}>
+        <Reveal delay={0.1} className="md:col-span-1 md:pl-10 md:border-l md:border-line">
           <h1 className={`${PAGE_TITLE} ${PAGE_TITLE_WRAP}`}>{obra.titulo ?? (locale === 'es' ? 'Sin título' : 'Untitled')}</h1>
 
           {datos.length > 0 && (

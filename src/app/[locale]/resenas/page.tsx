@@ -18,18 +18,18 @@ export default async function Resenas({ params }: { params: Promise<{ locale: st
   const resenas = await getResenas()
 
   return (
-    <div className="pt-32 pb-24 px-6 md:px-10 max-w-3xl mx-auto">
+    <div className="pt-32 pb-24 px-6 md:px-10">
       <Reveal>
         <h1 className={`${PAGE_TITLE} ${PAGE_TITLE_WRAP}`}>
           {locale === 'es' ? 'Reseñas' : 'Reviews'}
         </h1>
       </Reveal>
       {resenas.length === 0 ? (
-        <p className="text-muted text-sm tracking-widest uppercase py-12 text-center">
+        <p className="text-muted text-sm tracking-widest uppercase py-12 max-w-3xl">
           {locale === 'es' ? 'Contenido en migración' : 'Content being migrated'}
         </p>
       ) : (
-        <ul className="space-y-10">
+        <ul className="space-y-10 max-w-3xl">
           {resenas.map((r: any) => (
             <Reveal key={r._id}>
               <li className="border-b border-line pb-8">
