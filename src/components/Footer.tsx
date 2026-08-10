@@ -3,33 +3,38 @@ import { nav } from '@/i18n/dictionary'
 import Link from 'next/link'
 
 export default function Footer({ locale }: { locale: Locale }) {
+  const links: [string, string][] = [
+    ['portafolio', nav[locale].portafolio],
+    ['exposiciones', nav[locale].exposiciones],
+    ['bio', nav[locale].bio],
+    ['cv', nav[locale].cv],
+    ['noticias', nav[locale].noticias],
+    ['contacto', nav[locale].contacto],
+  ]
+
   return (
-    <footer className="border-t border-line px-6 md:px-12 py-14 mt-32">
-      <div className="flex flex-col md:flex-row justify-between gap-10 md:gap-4">
-        <div>
-          <p className="font-serif text-xl mb-1">Astrid Sommer</p>
-          <p className="text-sm text-muted">
-            {locale === 'es' ? 'Artista visual — Ciudad de México' : 'Visual artist — Mexico City'}
-          </p>
-        </div>
-        <div className="flex gap-10 text-[13px] tracking-[0.08em] uppercase text-foreground/70">
-          <Link href={`/${locale}/contacto`} className="hover:text-accent transition-colors">
-            {nav[locale].contacto}
-          </Link>
-          <a href="https://www.instagram.com/mtallermx" target="_blank" rel="noreferrer" className="hover:text-accent transition-colors">
-            Instagram
-          </a>
-          <a href="http://www.facebook.com/astrid.sommer.568" target="_blank" rel="noreferrer" className="hover:text-accent transition-colors">
-            Facebook
-          </a>
-        </div>
-      </div>
-      <div className="flex items-center justify-between mt-12">
-        <p className="text-xs text-muted">&copy; {new Date().getFullYear()} Astrid Sommer</p>
-        <Link href="/studio" className="text-xs text-muted/60 hover:text-muted transition-colors">
+    <footer className="px-6 md:px-12 pt-7 pb-8 mt-24 border-t border-line grid md:grid-cols-[auto_1fr_auto] gap-3 md:gap-6 items-center text-[11px] uppercase tracking-wide text-foreground/52">
+      <span className="font-bold text-foreground/64">Astrid Sommer</span>
+      <span className="text-foreground/44">
+        {locale === 'es'
+          ? 'Artista visual · Ciudad de México · '
+          : 'Visual artist · Mexico City · '}
+        &copy; {new Date().getFullYear()}
+        {locale === 'es' ? ' · Todos los derechos reservados' : ' · All rights reserved'}
+      </span>
+      <span className="flex flex-wrap items-center gap-x-2 gap-y-1 md:justify-self-end">
+        {links.map(([href, label]) => (
+          <span key={href} className="flex items-center gap-2">
+            <Link href={`/${locale}/${href}`} className="hover:text-accent transition-colors">
+              {label}
+            </Link>
+            <span className="text-foreground/30">·</span>
+          </span>
+        ))}
+        <a href="/studio" target="_blank" rel="noreferrer" className="hover:text-accent transition-colors">
           Admin
-        </Link>
-      </div>
+        </a>
+      </span>
     </footer>
   )
 }

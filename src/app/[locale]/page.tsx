@@ -35,7 +35,9 @@ async function getHomeData() {
     client
       .fetch(`*[_type == "noticia" && estado == "publicado"] | order(destacada desc, fecha desc)[0...3]{ _id, titulo, "slug": slug.current, fecha, tipo, extracto, imagenDestacada }`)
       .catch(() => []),
-    client.fetch(`*[_type == "siteSettings"][0]{ correo, whatsapp, instagram, catalogoActivo }`).catch(() => null),
+    client
+      .fetch(`*[_type == "siteSettings"][0]{ correo, whatsapp, instagram, catalogoActivo, "catalogoUrl": catalogoArchivo.asset->url }`)
+      .catch(() => null),
   ])
 
   return { heroObras, exposiciones, obraDelMes, estudioObras, bioDoc, noticias, settings }
@@ -267,49 +269,90 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       </section>
 
       {/* 7. Contacto */}
-      <section className="py-14 md:py-20 px-6 md:px-12 border-t border-line">
-        <Reveal>
-          <h2 className={`${H2} mb-8 md:mb-12`}>Contacto</h2>
-        </Reveal>
-        <Reveal delay={0.1}>
-          <div className="grid max-w-xl">
-            <a
-              href={settings?.correo ? `mailto:${settings.correo}` : `/${locale}/contacto`}
-              className="flex justify-between items-center py-[17px] border-t border-line/70 text-[13px] font-bold uppercase tracking-wide text-foreground/74 hover:text-accent transition-colors"
-            >
-              {site[locale].cta} <span className="text-lg">↗</span>
-            </a>
-            {settings?.whatsapp && (
-              <a
-                href={settings.whatsapp.startsWith('http') ? settings.whatsapp : `https://wa.me/${settings.whatsapp.replace(/\D/g, '')}`}
-                target="_blank"
-                rel="noreferrer"
-                className="flex justify-between items-center py-[17px] border-t border-line/70 text-[13px] font-bold uppercase tracking-wide text-foreground/74 hover:text-accent transition-colors"
-              >
-                WhatsApp <span className="text-lg">↗</span>
-              </a>
-            )}
-            {settings?.instagram && (
-              <a
-                href={settings.instagram.startsWith('http') ? settings.instagram : `https://instagram.com/${settings.instagram.replace('@', '')}`}
-                target="_blank"
-                rel="noreferrer"
-                className="flex justify-between items-center py-[17px] border-t border-line/70 text-[13px] font-bold uppercase tracking-wide text-foreground/74 hover:text-accent transition-colors"
-              >
-                Instagram <span className="text-lg">↗</span>
-              </a>
-            )}
-            {!settings?.correo && !settings?.whatsapp && !settings?.instagram && (
-              <Placeholder>
-                {locale === 'es'
-                  ? 'Completa correo/WhatsApp/Instagram en "Contacto y ajustes" en el panel'
-                  : 'Fill in email/WhatsApp/Instagram in the panel'}
-              </Placeholder>
-            )}
-            <div className="border-t border-line/70 h-[1px]" />
-          </div>
-        </Reveal>
+      <section className="min-h-[64vh] md:min-h-[74vh] flex items-end px-6 md:px-12 py-14 md:py-20 border-t border-line">
+        <div className="grid md:grid-cols-[1fr_.5fr] gap-8 md:gap-20 items-end w-full">
+          <Reveal>
+            <h2 className={H2}>Contacto</h2>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <div className="w-full md:max-w-[480px] md:justify-self-end grid">
+              <ContactRow
+                href={settings?.correo ? `mailto:${settings.correo}` : `/${locale}/contacto`}
+                label={site[locale].cta}
+                icon="mail"
+              />
+              {settings?.whatsapp && (
+                <ContactRow
+                  href={settings.whatsapp.startsWith('http') ? settings.whatsapp : `https://wa.me/${settings.whatsapp.replace(/\D/g, '')}`}
+                  label="WhatsApp"
+                  icon="whatsapp"
+                  external
+                />
+              )}
+              {settings?.catalogoActivo && settings?.catalogoUrl && (
+                <ContactRow href={settings.catalogoUrl} label={locale === 'es' ? 'Catálogo' : 'Catalogue'} icon="catalogo" external />
+              )}
+              {settings?.instagram && (
+                <ContactRow
+                  href={settings.instagram.startsWith('http') ? settings.instagram : `https://instagram.com/${settings.instagram.replace('@', '')}`}
+                  label="Instagram"
+                  icon="instagram"
+                  external
+                />
+              )}
+              <div className="border-t border-line/70 h-px" />
+            </div>
+          </Reveal>
+        </div>
       </section>
     </div>
+  )
+}
+
+const ICONS: Record<string, React.ReactNode> = {
+  mail: (
+    <>
+      <path d="M4 6h16v12H4z" />
+      <path d="m4 7 8 6 8-6" />
+    </>
+  ),
+  whatsapp: (
+    <>
+      <path d="M8 19.5 4.5 21l1-3.7a8 8 0 1 1 2.5 2.2Z" />
+      <path d="M9 9.5c.4 2.5 2 4.1 4.5 4.5" />
+    </>
+  ),
+  catalogo: (
+    <>
+      <path d="M6 4h9l3 3v13H6z" />
+      <path d="M14 4v4h4" />
+      <path d="M8.5 13h7" />
+      <path d="M8.5 16h5" />
+    </>
+  ),
+  instagram: (
+    <>
+      <rect x="5" y="5" width="14" height="14" rx="4" />
+      <circle cx="12" cy="12" r="3.2" />
+      <path d="M16.8 7.2h.01" />
+    </>
+  ),
+}
+
+function ContactRow({ href, label, icon, external }: { href: string; label: string; icon: keyof typeof ICONS; external?: boolean }) {
+  return (
+    <a
+      href={href}
+      {...(external ? { target: '_blank', rel: 'noreferrer' } : {})}
+      className="group flex items-center justify-between gap-4 py-[17px] border-t border-line/70 hover:text-accent transition-colors"
+    >
+      <span className="flex items-center gap-3 text-[13px] font-semibold uppercase tracking-wide text-foreground/68 group-hover:text-accent transition-colors">
+        <svg viewBox="0 0 24 24" className="w-[14px] h-[14px] shrink-0 stroke-foreground/40 group-hover:stroke-accent transition-colors" strokeWidth="1.7" fill="none">
+          {ICONS[icon]}
+        </svg>
+        {label}
+      </span>
+      <span className="text-accent text-[15px]">↗</span>
+    </a>
   )
 }
