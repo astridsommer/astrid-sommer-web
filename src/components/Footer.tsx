@@ -1,6 +1,7 @@
 import type { Locale } from '@/i18n/dictionary'
 import { nav } from '@/i18n/dictionary'
 import Link from 'next/link'
+import { PAGE_X } from '@/lib/homeStyles'
 
 export default function Footer({ locale }: { locale: Locale }) {
   const links: [string, string][] = [
@@ -13,7 +14,7 @@ export default function Footer({ locale }: { locale: Locale }) {
   ]
 
   return (
-    <footer className="px-6 md:px-12 pt-7 pb-8 mt-24 border-t border-line grid md:grid-cols-[auto_1fr_auto] gap-3 md:gap-6 items-center text-[11px] uppercase tracking-wide text-foreground/52">
+    <footer className={`${PAGE_X} pt-7 pb-8 mt-24 border-t border-line grid md:grid-cols-[auto_1fr_auto] gap-3 md:gap-6 items-center text-[11px] uppercase tracking-wide text-foreground/52`}>
       <span className="font-bold text-foreground/64">Astrid Sommer</span>
       <span className="text-foreground/44">
         {locale === 'es'

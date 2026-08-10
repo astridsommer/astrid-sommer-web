@@ -70,7 +70,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
   return (
     <div>
       {/* 1. Hero — altura = viewport menos el header, para que sea "la portada", no un banner */}
-      <section className="h-[calc(100svh-76px)] md:h-[calc(100svh-96px)] grid md:grid-cols-[.5fr_1.5fr] gap-8 md:gap-16 px-6 md:px-12 pt-24 md:pt-28 pb-10">
+      <section className="h-[calc(100svh-76px)] md:h-[calc(100svh-96px)] grid md:grid-cols-[.5fr_1.5fr] gap-8 md:gap-16 px-6 md:px-14 lg:px-20 pt-24 md:pt-28 pb-10">
         <div className="self-end">
           <Reveal>
             {show(hp?.heroDescriptorMostrar) && (
@@ -101,12 +101,12 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
 
       {/* 2. Exposiciones — margen intencional para que no quede pegada al hero */}
       {show(hp?.mostrarExposiciones) && (
-      <section className="pt-24 md:pt-36 pb-14 md:pb-20 px-6 md:px-12">
+      <section className="pt-24 md:pt-36 pb-14 md:pb-20 px-6 md:px-14 lg:px-20">
         <Reveal>
           <h2 className={`${H2} mb-8 md:mb-12`}>{t(hp?.tituloExposiciones, locale === 'es' ? 'Exposiciones' : 'Exhibitions')}</h2>
         </Reveal>
         {exposiciones.length > 0 ? (
-          <div className="flex gap-6 md:gap-10 overflow-x-auto pb-4 -mx-6 px-6 md:-mx-12 md:px-12">
+          <div className="flex gap-6 md:gap-10 overflow-x-auto pb-4 -mx-6 px-6 md:-mx-14 md:px-14 lg:-mx-20 lg:px-20">
             {exposiciones.map((expo: any) => {
               const img = expo.portada ? urlForImage(expo.portada)?.width(900).url() : undefined
               const lugarCorto = [expo.lugar, expo.ciudad].filter(Boolean).join(' · ')
@@ -114,7 +114,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
               return (
                 <Link key={expo._id} href={`/${locale}/exposiciones`} className="group block shrink-0 w-[280px] md:w-[420px]">
                   <div className="relative aspect-[4/5] bg-surface overflow-hidden">
-                    {img && <Image src={img} alt={expo.titulo} fill className="object-cover group-hover:scale-[1.03] transition-transform duration-700" />}
+                    {img && <Image src={img} alt={expo.titulo} fill className="object-cover object-top group-hover:scale-[1.03] transition-transform duration-700" />}
                   </div>
                   <div className="flex justify-between text-[12px] font-semibold uppercase tracking-wide text-muted mt-4">
                     <span>Expo</span>
@@ -144,7 +144,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
 
       {/* 3. Obra del mes */}
       {show(hp?.mostrarObraDelMes) && (
-      <section className="py-14 md:py-20 px-6 md:px-12">
+      <section className="py-14 md:py-20 px-6 md:px-14 lg:px-20">
         <Reveal>
           <h2 className={`${H2} mb-8 md:mb-12`}>{t(hp?.tituloObraDelMes, locale === 'es' ? 'Obra del mes' : 'Featured work')}</h2>
         </Reveal>
@@ -153,7 +153,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             <Reveal>
               <div className="relative aspect-[4/5] bg-surface overflow-hidden">
                 {obraDelMes.img && (
-                  <Image src={urlForImage(obraDelMes.img)!.width(1200).url()} alt={obraDelMes.titulo} fill className="object-cover" />
+                  <Image src={urlForImage(obraDelMes.img)!.width(1200).url()} alt={obraDelMes.titulo} fill className="object-cover object-top" />
                 )}
               </div>
             </Reveal>
@@ -193,7 +193,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
 
       {/* 4. Estudio */}
       {show(hp?.mostrarEstudio) && (
-      <section className="py-14 md:py-20 px-6 md:px-12 border-t border-line">
+      <section className="py-14 md:py-20 px-6 md:px-14 lg:px-20 border-t border-line">
         <Reveal>
           <h2 className={`${H2} mb-8 md:mb-12`}>{t(hp?.tituloEstudio, locale === 'es' ? 'Estudio' : 'Studio')}</h2>
         </Reveal>
@@ -202,7 +202,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             {estudioObras.map((o: any) => (
               <Reveal key={o._id}>
                 <div className="relative aspect-[3/4] bg-surface overflow-hidden mb-4">
-                  {o.img && <Image src={urlForImage(o.img)!.width(800).url()} alt={o.titulo} fill className="object-cover" />}
+                  {o.img && <Image src={urlForImage(o.img)!.width(800).url()} alt={o.titulo} fill className="object-cover object-top" />}
                 </div>
                 <h3 className="font-sans font-medium text-[clamp(19px,1.5vw,24px)] leading-[1.1] text-foreground/68">{o.titulo}</h3>
               </Reveal>
@@ -220,7 +220,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
 
       {/* 5. Bio */}
       {show(hp?.mostrarBio) && (
-      <section className="py-14 md:py-20 px-6 md:px-12 border-t border-line grid md:grid-cols-[.72fr_1.28fr] gap-10 md:gap-16">
+      <section className="py-14 md:py-20 px-6 md:px-14 lg:px-20 border-t border-line grid md:grid-cols-[.72fr_1.28fr] gap-10 md:gap-16">
         <Reveal>
           <h2 className={H2}>{t(hp?.tituloBio, 'Bio')}</h2>
         </Reveal>
@@ -255,7 +255,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
 
       {/* 6. Noticias */}
       {show(hp?.mostrarNoticias) && (
-      <section className="py-14 md:py-20 px-6 md:px-12 border-t border-line">
+      <section className="py-14 md:py-20 px-6 md:px-14 lg:px-20 border-t border-line">
         <Reveal>
           <h2 className={`${H2} mb-8 md:mb-12`}>{t(hp?.tituloNoticias, locale === 'es' ? 'Noticias' : 'News')}</h2>
         </Reveal>
@@ -269,7 +269,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                     <Link href={`/${locale}/noticias`} className="group block">
                       <div className="relative aspect-[1/.82] bg-surface overflow-hidden mb-4">
                         {img ? (
-                          <Image src={img} alt={n.titulo?.[locale] ?? ''} fill className="object-cover group-hover:scale-[1.03] transition-transform duration-700" />
+                          <Image src={img} alt={n.titulo?.[locale] ?? ''} fill className="object-cover object-top group-hover:scale-[1.03] transition-transform duration-700" />
                         ) : (
                           <div className="absolute inset-0 flex items-center justify-center text-muted text-[11px] uppercase tracking-widest">
                             {locale === 'es' ? 'Sin imagen' : 'No image'}
@@ -301,7 +301,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
 
       {/* 7. Contacto */}
       {show(hp?.mostrarContacto) && (
-      <section className="min-h-[64vh] md:min-h-[74vh] flex items-end px-6 md:px-12 py-14 md:py-20 border-t border-line">
+      <section className="min-h-[64vh] md:min-h-[74vh] flex items-end px-6 md:px-14 lg:px-20 py-14 md:py-20 border-t border-line">
         <div className="grid md:grid-cols-[1fr_.5fr] gap-8 md:gap-20 items-end w-full">
           <Reveal>
             <h2 className={H2}>{t(hp?.tituloContacto, 'Contacto')}</h2>

@@ -2,7 +2,7 @@ import { client } from '@/sanity/lib/client'
 import { urlForImage } from '@/sanity/lib/image'
 import type { Locale } from '@/i18n/dictionary'
 import Reveal from '@/components/Reveal'
-import { PAGE_TITLE, PAGE_TITLE_WRAP } from '@/lib/homeStyles'
+import { PAGE_TITLE, PAGE_TITLE_WRAP, PAGE_X } from '@/lib/homeStyles'
 import Link from 'next/link'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
@@ -44,7 +44,7 @@ export default async function ExposicionDetalle({ params }: { params: Promise<{ 
   const lugarCompleto = [expo.lugar, expo.ciudad, expo.pais].filter(Boolean).join(', ')
 
   return (
-    <div className="pt-32 pb-24 px-6 md:px-10">
+    <div className={`pt-32 pb-24 ${PAGE_X}`}>
       <Reveal>
         <Link href={`/${locale}/exposiciones`} className="text-[12px] uppercase tracking-wide text-muted hover:text-accent transition-colors">
           ← {locale === 'es' ? 'Exposiciones' : 'Exhibitions'}
@@ -63,7 +63,7 @@ export default async function ExposicionDetalle({ params }: { params: Promise<{ 
       {portada && (
         <Reveal delay={0.1}>
           <div className="relative aspect-[16/9] bg-surface overflow-hidden mb-12">
-            <Image src={portada} alt={expo.titulo} fill className="object-cover" />
+            <Image src={portada} alt={expo.titulo} fill className="object-cover object-top" />
           </div>
         </Reveal>
       )}
@@ -86,7 +86,7 @@ export default async function ExposicionDetalle({ params }: { params: Promise<{ 
               const url = urlForImage(img)?.width(900).url()
               return (
                 <div key={i} className="relative aspect-[4/5] bg-surface overflow-hidden">
-                  {url && <Image src={url} alt="" fill className="object-cover" />}
+                  {url && <Image src={url} alt="" fill className="object-cover object-top" />}
                 </div>
               )
             })}
@@ -103,8 +103,14 @@ export default async function ExposicionDetalle({ params }: { params: Promise<{ 
             {obras.map((obra: any) => {
               const img = obra.img ? urlForImage(obra.img)?.width(800).url() : undefined
               return (
-                <Link key={obra._id} href={`/${locale}/portafolio/${obra.slug}`} className="relative aspect-square bg-surface overflow-hidden group">
-                  {img && <Image src={img} alt={obra.titulo} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />}
+                <Link key={obra._id} href={`/${locale}/portafolio/${obra.slug}`} className={`relative aspect-square overflow-hidden group ${img ? 'bg-surface' : 'border border-line/70'}`}>
+                  {img ? (
+                    <Image src={img} alt={obra.titulo} fill className="object-cover object-top group-hover:scale-105 transition-transform duration-700" />
+                  ) : (
+                    <span className="absolute inset-0 flex items-center justify-center text-[10px] uppercase tracking-widest text-muted/70 text-center px-2">
+                      {obra.titulo}
+                    </span>
+                  )}
                 </Link>
               )
             })}

@@ -98,15 +98,19 @@ export default function ObraArchivo({ obras, locale }: { obras: ObraItem[]; loca
               <Link
                 key={obra._id}
                 href={`/${locale}/portafolio/${obra.slug}`}
-                className="relative aspect-square bg-surface overflow-hidden group"
+                className={`relative aspect-square overflow-hidden group ${img ? 'bg-surface' : 'border border-line/70'}`}
               >
-                {img && (
+                {img ? (
                   <Image
                     src={img.width(800).url()}
                     alt={obra.titulo}
                     fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-700"
+                    className="object-cover object-top group-hover:scale-105 transition-transform duration-700"
                   />
+                ) : (
+                  <span className="absolute inset-0 flex items-center justify-center text-[10px] uppercase tracking-widest text-muted/70">
+                    {obra.titulo}
+                  </span>
                 )}
               </Link>
             )

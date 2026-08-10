@@ -3,7 +3,7 @@ import { urlForImage } from '@/sanity/lib/image'
 import type { Locale } from '@/i18n/dictionary'
 import Reveal from '@/components/Reveal'
 import Image from 'next/image'
-import { PAGE_TITLE, PAGE_TITLE_WRAP } from '@/lib/homeStyles'
+import { PAGE_TITLE, PAGE_TITLE_WRAP, PAGE_X } from '@/lib/homeStyles'
 
 export const revalidate = 60
 
@@ -21,7 +21,7 @@ export default async function BioPage({ params }: { params: Promise<{ locale: st
   const foto = bio?.foto ? urlForImage(bio.foto)?.width(900).url() : undefined
 
   return (
-    <div className="pt-32 pb-24 px-6 md:px-10">
+    <div className={`pt-32 pb-24 ${PAGE_X}`}>
       <Reveal>
         <h1 className={`${PAGE_TITLE} ${PAGE_TITLE_WRAP}`}>
           {locale === 'es' ? 'Biografía' : 'Biography'}
@@ -32,7 +32,7 @@ export default async function BioPage({ params }: { params: Promise<{ locale: st
         {foto && (
           <Reveal delay={0.05}>
             <div className="relative aspect-[4/5] bg-surface overflow-hidden">
-              <Image src={foto} alt={locale === 'es' ? 'Astrid Sommer' : 'Astrid Sommer'} fill className="object-contain" />
+              <Image src={foto} alt={locale === 'es' ? 'Astrid Sommer' : 'Astrid Sommer'} fill className="object-contain object-top" />
             </div>
           </Reveal>
         )}

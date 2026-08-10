@@ -1,7 +1,7 @@
 import { client } from '@/sanity/lib/client'
 import type { Locale } from '@/i18n/dictionary'
 import Reveal from '@/components/Reveal'
-import { PAGE_TITLE, PAGE_TITLE_WRAP } from '@/lib/homeStyles'
+import { PAGE_TITLE, PAGE_TITLE_WRAP, PAGE_X } from '@/lib/homeStyles'
 
 export const revalidate = 60
 
@@ -18,7 +18,7 @@ export default async function Resenas({ params }: { params: Promise<{ locale: st
   const resenas = await getResenas()
 
   return (
-    <div className="pt-32 pb-24 px-6 md:px-10">
+    <div className={`pt-32 pb-24 ${PAGE_X}`}>
       <Reveal>
         <h1 className={`${PAGE_TITLE} ${PAGE_TITLE_WRAP}`}>
           {locale === 'es' ? 'Reseñas' : 'Reviews'}

@@ -3,7 +3,7 @@ import { urlForImage } from '@/sanity/lib/image'
 import type { Locale } from '@/i18n/dictionary'
 import Reveal from '@/components/Reveal'
 import Image from 'next/image'
-import { PAGE_TITLE, PAGE_TITLE_WRAP } from '@/lib/homeStyles'
+import { PAGE_TITLE, PAGE_TITLE_WRAP, PAGE_X } from '@/lib/homeStyles'
 
 export const revalidate = 60
 
@@ -22,7 +22,7 @@ export default async function Noticias({ params }: { params: Promise<{ locale: s
   const noticias = await getNoticias()
 
   return (
-    <div className="pt-32 pb-24 px-6 md:px-10">
+    <div className={`pt-32 pb-24 ${PAGE_X}`}>
       <Reveal>
         <h1 className={`${PAGE_TITLE} ${PAGE_TITLE_WRAP}`}>
           {locale === 'es' ? 'Noticias' : 'News'}
@@ -45,7 +45,7 @@ export default async function Noticias({ params }: { params: Promise<{ locale: s
                   <h2 className="text-2xl mt-2">{n.titulo?.[locale]}</h2>
                   {img && (
                     <div className="relative w-full aspect-video mt-4 bg-surface">
-                      <Image src={img.width(1200).url()} alt={n.titulo?.[locale] ?? ''} fill className="object-cover" />
+                      <Image src={img.width(1200).url()} alt={n.titulo?.[locale] ?? ''} fill className="object-cover object-top" />
                     </div>
                   )}
                   <p className="mt-4 text-foreground/80 leading-relaxed whitespace-pre-line">{n.cuerpo?.[locale]}</p>

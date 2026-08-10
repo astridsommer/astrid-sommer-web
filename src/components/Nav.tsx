@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { nav, type Locale } from '@/i18n/dictionary'
+import { PAGE_X } from '@/lib/homeStyles'
 
 type DropdownExpo = { _id: string; titulo: string; slug: string }
 
@@ -37,7 +38,7 @@ export default function Nav({ locale, dropdownExposiciones = [] }: { locale: Loc
         scrolled || open ? 'bg-background/95 backdrop-blur-sm border-b border-line' : 'bg-transparent'
       }`}
     >
-      <nav className="flex items-center px-6 md:px-12 py-5 md:py-6">
+      <nav className={`flex items-center ${PAGE_X} py-5 md:py-6`}>
         <Link href={`/${locale}`} className="font-serif text-lg tracking-wide">
           Astrid Sommer
         </Link>

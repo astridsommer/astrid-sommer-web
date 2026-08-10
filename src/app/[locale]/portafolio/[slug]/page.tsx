@@ -3,7 +3,7 @@ import { urlForImage } from '@/sanity/lib/image'
 import type { Locale } from '@/i18n/dictionary'
 import { site } from '@/i18n/dictionary'
 import Reveal from '@/components/Reveal'
-import { PAGE_TITLE, PAGE_TITLE_WRAP } from '@/lib/homeStyles'
+import { PAGE_TITLE, PAGE_TITLE_WRAP, PAGE_X } from '@/lib/homeStyles'
 import Link from 'next/link'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
@@ -53,7 +53,7 @@ export default async function ObraDetalle({ params }: { params: Promise<{ locale
   }
 
   return (
-    <div className="pt-32 pb-24 px-6 md:px-10">
+    <div className={`pt-32 pb-24 ${PAGE_X}`}>
       <Reveal>
         <Link href={`/${locale}/portafolio`} className="text-[12px] uppercase tracking-wide text-muted hover:text-accent transition-colors">
           ← {locale === 'es' ? 'Obra' : 'Work'}
@@ -62,11 +62,11 @@ export default async function ObraDetalle({ params }: { params: Promise<{ locale
 
       <div className="grid md:grid-cols-4 gap-10 md:gap-16 mt-8">
         <Reveal delay={0.05} className="md:col-span-3">
-          <div className="relative w-full bg-surface overflow-hidden aspect-[4/5]">
+          <div className={`relative w-full overflow-hidden aspect-[4/5] ${img ? 'bg-surface' : 'border border-line/70'}`}>
             {img ? (
-              <Image src={img} alt={obra.titulo ?? ''} fill className="object-contain" />
+              <Image src={img} alt={obra.titulo ?? ''} fill className="object-contain object-top" />
             ) : (
-              <div className="absolute inset-0 flex items-center justify-center text-[11px] uppercase tracking-widest text-muted">
+              <div className="absolute inset-0 flex items-center justify-center text-[11px] uppercase tracking-widest text-muted/70">
                 {locale === 'es' ? 'Imagen no disponible' : 'Image not available'}
               </div>
             )}

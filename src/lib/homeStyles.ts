@@ -58,6 +58,18 @@ export function heroDescriptorClases(v?: { heroDescriptorTamano?: string; heroDe
     .join(' ')
 }
 
+// Retícula editorial global — mismo margen horizontal para el header, el
+// footer y el contenedor de cada página interior. Este es el único lugar
+// donde se define ese margen: si cambia aquí, cambia en todo el sitio a la
+// vez y todo permanece alineado entre sí. El contenido nunca queda pegado
+// al borde del viewport; en desktop respira al mismo nivel que el nombre
+// "Astrid Sommer" del header.
+export const PAGE_X = 'px-6 md:px-14 lg:px-20'
+// Ancho máximo de lectura/composición dentro del contenedor editorial —
+// evita que el contenido se estire de borde a borde en pantallas anchas
+// sin necesidad de centrar el bloque completo.
+export const PAGE_MAX = 'max-w-6xl'
+
 // Título principal (h1) de todas las páginas interiores (todo excepto Home).
 // Mismo sistema en todas: alineado a la izquierda, chico, gris sutil, peso
 // ligero. `PAGE_TITLE_WRAP` fija el mismo espacio de aire debajo del título
