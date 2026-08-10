@@ -14,18 +14,27 @@ export default function HeroCarousel({ images }: { images: { url: string; alt: s
   if (images.length === 0) return null
 
   return (
-    <div className="relative aspect-[5/4] md:aspect-[16/9] max-h-[58vh] overflow-hidden bg-surface rounded-sm">
-      {images.map((img, i) => (
-        <div
-          key={img.url}
-          className="absolute inset-0 transition-opacity duration-700 ease-out"
-          style={{ opacity: i === index ? 1 : 0 }}
-        >
-          <Image src={img.url} alt={img.alt} fill sizes="(min-width: 768px) 50vw, 100vw" className="object-cover" priority={i === 0} />
-        </div>
-      ))}
+    <div className="relative h-full w-full grid">
+      <div className="relative h-full w-full min-h-0">
+        {images.map((img, i) => (
+          <div
+            key={img.url}
+            className="absolute inset-0 transition-opacity duration-700 ease-out"
+            style={{ opacity: i === index ? 1 : 0 }}
+          >
+            <Image
+              src={img.url}
+              alt={img.alt}
+              fill
+              sizes="(min-width: 768px) 65vw, 100vw"
+              className="object-contain object-bottom md:object-center"
+              priority={i === 0}
+            />
+          </div>
+        ))}
+      </div>
       {images.length > 1 && (
-        <div className="absolute bottom-5 left-0 right-0 flex items-center justify-center gap-2.5">
+        <div className="absolute bottom-2 left-0 right-0 flex items-center justify-center gap-2.5">
           {images.map((img, i) => (
             <button
               key={img.url}

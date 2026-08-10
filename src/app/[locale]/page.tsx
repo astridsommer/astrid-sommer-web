@@ -54,22 +54,24 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
 
   return (
     <div>
-      {/* 1. Hero */}
-      <section className="min-h-[78vh] grid md:grid-cols-[.5fr_1.5fr] gap-8 md:gap-16 items-end px-6 md:px-12 pt-28 pb-10">
-        <Reveal>
-          <p className="flex items-center gap-2.5 text-[11px] font-medium uppercase tracking-wide text-foreground/45 mb-3">
-            <span className="w-8 h-px bg-foreground/25" />
-            {site[locale].heroSubtitle}
-          </p>
-          <h1 className="font-sans font-extralight text-[clamp(24px,2.6vw,40px)] leading-none text-foreground/50 max-w-[13ch]">
-            {site[locale].heroTitle}
-          </h1>
-        </Reveal>
-        <Reveal delay={0.15}>
+      {/* 1. Hero — altura = viewport menos el header, para que sea "la portada", no un banner */}
+      <section className="h-[calc(100svh-76px)] md:h-[calc(100svh-96px)] grid md:grid-cols-[.5fr_1.5fr] gap-8 md:gap-16 px-6 md:px-12 pt-24 md:pt-28 pb-10">
+        <div className="self-end">
+          <Reveal>
+            <p className="flex items-center gap-2.5 text-[11px] font-medium uppercase tracking-wide text-foreground/45 mb-3">
+              <span className="w-8 h-px bg-foreground/25" />
+              {site[locale].heroSubtitle}
+            </p>
+            <h1 className="font-sans font-extralight text-[clamp(24px,2.6vw,40px)] leading-none text-foreground/50 max-w-[13ch]">
+              {site[locale].heroTitle}
+            </h1>
+          </Reveal>
+        </div>
+        <Reveal delay={0.15} className="h-full min-h-0">
           {heroImages.length > 0 ? (
             <HeroCarousel images={heroImages} />
           ) : (
-            <div className="aspect-[16/9] max-h-[52vh] md:max-h-[58vh] bg-surface flex items-center justify-center text-muted text-[12px] tracking-widest uppercase text-center px-6">
+            <div className="h-full bg-surface flex items-center justify-center text-muted text-[12px] tracking-widest uppercase text-center px-6">
               {locale === 'es'
                 ? 'Marca alguna obra como "Usar como Hero" en el panel para que aparezca aquí'
                 : 'Mark an artwork as "Use as Hero" in the panel to show it here'}
@@ -78,8 +80,8 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         </Reveal>
       </section>
 
-      {/* 2. Exposiciones */}
-      <section className="py-14 md:py-20 px-6 md:px-12">
+      {/* 2. Exposiciones — margen intencional para que no quede pegada al hero */}
+      <section className="pt-24 md:pt-36 pb-14 md:pb-20 px-6 md:px-12">
         <Reveal>
           <h2 className={`${H2} mb-8 md:mb-12`}>{locale === 'es' ? 'Exposiciones' : 'Exhibitions'}</h2>
         </Reveal>
